@@ -9,3 +9,7 @@ div:first-of-type{
   margin-top: 200px;
   width: max-content;
 }
+
+img.svg {
+  width: 26px;
+}

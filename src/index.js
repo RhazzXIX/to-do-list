@@ -1,15 +1,21 @@
-import './styles/style.css';
+import "./styles/style.css";
+import tasksFns from "./scripts/app";
 
-const div = document.createElement('div')
-div.textContent = 'Click me!';
+const DOM = (function () {
+  const base = document.querySelector("body");
+  const headerMain = document.createElement("header");
+  const main = document.createElement("main");
+  const sidebar = document.createElement("aside");
 
-document.querySelector('body').appendChild(div);
+  base.appendChild(headerMain);
+  base.appendChild(sidebar);
+  base.appendChild(main);
 
-div.addEventListener('click',(e) => {
-  e.stopPropagation();
-  if (div.textContent === 'Click me!') {
-    div.textContent = 'Hello Up-Skilling World!';
-  } else {div.textContent = 'Click me!'};
-});
+})();
 
-// console.log(div2);
+
+const groceries2 = tasksFns.addTasks('buy groceries more', 'afternoon');
+
+console.log(tasksFns.getTask().push('groceries'));
+tasksFns.deleteTasks('water the plants');
+console.log(tasksFns.getTask());
