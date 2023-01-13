@@ -8,12 +8,6 @@
   font-size: 16px;
 }
 
-div:first-of-type{
-  margin: auto;
-  margin-top: 200px;
-  width: max-content;
-}
-
 img.svg {
   width: 22px;
 }
@@ -26,13 +20,26 @@ ul {
   list-style: none;
 }
 
+a {
+  text-decoration: none;
+}
+
+body {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
+  min-width: 908px
+}
+
 header{
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: 1fr repeat(3,auto);
   align-items: center;
   padding: 10px 40px 5px 16px;
   gap: 12px;
   background-color: #cbf3f0;
+  box-shadow: 2px 0px 6px #2ec4b6;
 }
 
 header > button {
@@ -54,4 +61,116 @@ header > button:hover {
 
 header > button:active {
   border-color: #ff9f1c #ffbf69 #ffbf69 #ff9f1c ;
+}
+
+aside {
+  grid-area: 2 / 1 / 3 / 2;
+  margin-top: 2px;
+  width: 250px;
+  height: calc(100vh - 47px);
+  padding: 18px;
+  background-color: #ffbf69;
+  box-shadow: 0px 2px 6px #ff9f1c;
+  display: grid;
+  grid-template-rows: auto minmax(300px, 1fr) auto;
+}
+
+aside ul {
+  border-bottom: 1px solid grey;
+  box-shadow: 0 2px 1px -1px grey;
+}
+
+aside div.nav {
+  width: max-content;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 1.4rem;
+}
+
+aside div.nav:hover {
+  text-decoration: underline;
+  filter:invert(59%) sepia(0%) saturate(1032%) hue-rotate(172deg) brightness(86%) contrast(86%);
+}
+
+aside div.nav:active {
+  filter: invert(97%) sepia(3%) saturate(0%) hue-rotate(268deg) brightness(102%) contrast(107%);
+}
+
+aside ul 
+li button {
+  appearance: none;
+  font-size: 1.5rem;
+  background-color: #ffbf69;
+  border: 0;
+}
+
+aside ul 
+li:last-of-type{
+  display: flex;
+  gap: 22px;
+  height: 26px;
+  margin-bottom: 4px;
+}
+
+aside ul 
+li:last-of-type
+button {
+  width: max-content;
+  height: 26px;
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+  text-align: center;
+  border-radius: 50%;
+}
+
+aside ul 
+li:last-of-type
+button:hover {
+  border: 1px solid grey;
+  color: grey;
+}
+
+aside ul 
+li:last-of-type
+button:active {
+  border: 1px solid white;
+  color: white;
+}
+
+aside > div {
+  min-height: 300px;
+}
+
+aside a {
+  grid-row: 3 / 4;
+  height: 40px;
+  justify-self: center;
+}
+
+aside a 
+img:hover {
+  filter: drop-shadow(0 0 10px white);
+}
+
+main {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+main div {
+  width: 500px;
+  height: 50px;
+  margin: 16px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 6px solid #ff9f1c;
+  border-radius: 4px 8px 8px 2px;
+  box-shadow: 2px 2px 8px rgb(197, 197, 197);
 }
