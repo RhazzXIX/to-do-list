@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+:root {
+  font-size: 16px;
+}
+
 div:first-of-type{
   margin: auto;
   margin-top: 200px;
@@ -11,5 +15,43 @@ div:first-of-type{
 }
 
 img.svg {
-  width: 26px;
+  width: 22px;
+}
+
+img#exe {
+  width: 42px;
+}
+
+ul {
+  list-style: none;
+}
+
+header{
+  display: grid;
+  grid-template-columns: 1fr repeat(3,auto);
+  align-items: center;
+  padding: 10px 40px 5px 16px;
+  gap: 12px;
+  background-color: #cbf3f0;
+}
+
+header > button {
+  appearance: none;
+  width: 32px;
+  font-size: 1.5rem;
+  padding: 0 4px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 2px solid;
+  border-color: #ffbf69 #ff9f1c #ff9f1c #ffbf69 ;
+  color: #2ec4b6;
+  cursor: pointer;
+}
+
+header > button:hover {
+  box-shadow: 0px 0px 10px orange;
+}
+
+header > button:active {
+  border-color: #ff9f1c #ffbf69 #ffbf69 #ff9f1c ;
 }
