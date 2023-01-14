@@ -1,4 +1,4 @@
-import taskFns from "./app";
+import taskFns from "./tasks";
 
 const projectModule = (function () {
   const CreateProject = function () {
