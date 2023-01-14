@@ -46,4 +46,43 @@ const tasksModule = (function () {
   return CreateTaskList;
 })();
 
-export default tasksModule;
+console.log(tasksModule())
+
+const projectModule = (function () {
+  const CreateProject = function () {
+    const projectList = [];
+
+    const NewProject = function (name, description) {
+      let projectName = name;
+      let projectDescription = description;
+      const getProjectName = () => projectName;
+      const changeProjectName = function ( newName) { projectName = newName};
+      const project = Object.assign(Object.create(tasksModule()), {
+        getProjectName,
+        changeProjectName,
+      });
+      return project;
+    };
+
+    const createNewProject = function (projectName) {
+      const newProject = NewProject(projectName);
+      projectList.push(newProject);
+    };
+
+    const listProjects = function () {
+      const list = projectList.map((item) => item);
+
+      return list;
+    };
+
+    const plants = createNewProject("Plants");
+
+    const table = createNewProject("Table");
+
+    return { createNewProject, listProjects };
+  };
+
+  return CreateProject;
+})();
+
+export { tasksModule, projectModule};
