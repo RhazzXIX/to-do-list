@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 const tasksModule = (function () {
   const CreateTaskList = function () {
     const tasks = [];
@@ -12,15 +13,16 @@ const tasksModule = (function () {
       return { getPriority, returnTask };
     };
 
-    const NewTask = function (task, date, level) {
+    const NewTask = function (task, date, level, note) {
       const duty = Object.create(Task());
       let priority = level;
+      const taskReference = createReference(task, note)
       if (priority === undefined) priority = 4;
-      return Object.assign(duty, { task, date, priority });
+      return Object.assign(duty, { task, date, priority, taskReference });
     };
 
-    const addTasks = function (task, date, priority) {
-      const newTask = NewTask(task, date, priority);
+    const addTasks = function (task, date, priority, note) {
+      const newTask = NewTask(task, date, priority, note);
       tasks.push(newTask);
     };
 
@@ -38,6 +40,20 @@ const tasksModule = (function () {
       const taskEdit = tasks.filter((item) => item.duty === duty);
     };
 
+    function createReference (task, note) {
+      const ref1 = task.split(' ').reduce((word, word2) => {
+        word += word2.slice(0,1);
+        return word
+      },'')
+      const ref2 = note.split(' ').reduce((word, word2) => {
+        word += word2.slice(0,1);
+        return word;
+      }, '')
+      const date = format(new Date(), 'hmmss');
+      const reference = ref1 + ref2 + date;
+      return reference;
+    }
+
     return Object.assign({}, { addTasks, deleteTasks, listTasks });
   };
 
@@ -46,8 +62,6 @@ const tasksModule = (function () {
   return CreateTaskList;
 })();
 
-// console.log(tasksModule());
-
 const projectModule = (function () {
   const CreateProject = function () {
     const projectList = [];
@@ -55,34 +69,50 @@ const projectModule = (function () {
     const NewProject = function (name, description) {
       let projectName = name;
       let projectDescription = description;
+      let projectReference = createReference(name, description);
       const getProjectName = () => projectName;
       const changeProjectName = function (newName) {
         projectName = newName;
       };
+      const getProjectDescription = () => projectDescription;
+      const changeDescription = function (newDescription) {
+        projectDescription = newDescription;
+      }
+      const getProjectReference = () => projectReference;
       const project = Object.assign(Object.create(tasksModule()), {
         getProjectName,
         changeProjectName,
+        getProjectDescription,
+        changeDescription,
+        getProjectReference
       });
       return project;
     };
 
-    const createNewProject = function (projectName) {
-      const newProject = NewProject(projectName);
+    const createNewProject = function (projectName, projectDescription) {
+      const newProject = NewProject(projectName, projectDescription);
       projectList.push(newProject);
     };
 
-    const listProjects = function () {
-      const list = projectList.map((item) => item);
+    function createReference (name, desc) {
+      const ref1 = name.split(' ').reduce((word, word2) => {
+        word += word2.slice(0,1);
+        return word
+      },'')
+      const ref2 = desc.split(' ').reduce((word, word2) => {
+        word += word2.slice(0,1);
+        return word;
+      }, '')
+      const date = format(new Date(), 'hmmss');
+      const reference = ref1 + ref2 + date;
+      return reference;
+    }
 
-      return list;
-    };
-
-    const plants = createNewProject("Plants");
-
-    const table = createNewProject("Table");
+    const listProjects = function () { return projectList };
 
     return { createNewProject, listProjects };
   };
+
 
   return CreateProject;
 })();

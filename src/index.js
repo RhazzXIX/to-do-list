@@ -16,17 +16,17 @@ import GitHub from "./images/GitHub.png";
 const uTasks = tasksModule();
 // console.log(uTasks);
 const uProjects = projectModule();
-console.log(uProjects);
+// console.log(uProjects);
 
-uProjects.listProjects()[0].addTasks("buy soil", "afternoon");
-uProjects.listProjects()[1].addTasks();
+// uProjects.listProjects()[0].addTasks("buy soil", "afternoon");
+// uProjects.listProjects()[1].addTasks();
 // console.log(uProjects.listProjects()[0].getProjectName());
 // console.log(uProjects.listProjects());
 // uProjects.listProjects().forEach((item) => console.log(item.listTasks()));
-uTasks.addTasks("buy groceries", "today", 1);
-uTasks.addTasks("drop shopee", "today", 2);
-uTasks.addTasks("pay bills", "today", 1);
-// console.log(uTasks.listTasks());
+uTasks.addTasks("buy groceries", "today", 1, 'local market');
+// uTasks.addTasks("drop shopee", "today", 2);
+// uTasks.addTasks("pay bills", "today", 1);
+console.log(uTasks.listTasks());
 
 const DOM = (function () {
   const base = document.querySelector("body");
@@ -233,12 +233,12 @@ const DOM = (function () {
 
   function submitForm (event) {
     event.stopPropagation();
-    console.log(event.target)
-    console.log(!!firstInput);
     if (!!firstInput.value === true) {
       event.preventDefault();
-      uProjects.createNewProject(firstInput.value);
+      console.log(scndInput.value)
+      uProjects.createNewProject(firstInput.value, scndInput.value);
       updateProjectList();
+      clearForm();
       removeForm(event);
     }
 
@@ -262,7 +262,6 @@ const DOM = (function () {
   
   // DOM and App bridge
   function removeForm(event) {
-    console.log(event.target);
     switch (event.target) {
       case (sectionForm):
         event.stopPropagation();
@@ -277,20 +276,24 @@ const DOM = (function () {
         base.removeChild(sectionForm);
         break;
       default:
-        return
     }
-    // if (event.target !== sectionForm && 
-    //   event.target !== closeBtn
-    //   eve) return;
+  }
+
+  function clearForm () {
+    firstInput.value = '';
+    scndInput.value = '';
   }
 
   const updateProjectList = function () {
     const list = projectList.querySelectorAll('li')
+    
     list.forEach(project => {
       projectList.removeChild(project)
     });
+
     uProjects.listProjects().forEach((project) => {
-    const li = document.createElement("li");
+      console.log(project.getProjectReference());
+      const li = document.createElement("li");
     
       const pName = document.createElement("button");
       pName.classList.add("list");
