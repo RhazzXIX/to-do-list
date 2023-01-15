@@ -46,7 +46,7 @@ const tasksModule = (function () {
   return CreateTaskList;
 })();
 
-console.log(tasksModule())
+// console.log(tasksModule());
 
 const projectModule = (function () {
   const CreateProject = function () {
@@ -56,7 +56,9 @@ const projectModule = (function () {
       let projectName = name;
       let projectDescription = description;
       const getProjectName = () => projectName;
-      const changeProjectName = function ( newName) { projectName = newName};
+      const changeProjectName = function (newName) {
+        projectName = newName;
+      };
       const project = Object.assign(Object.create(tasksModule()), {
         getProjectName,
         changeProjectName,
@@ -85,4 +87,4 @@ const projectModule = (function () {
   return CreateProject;
 })();
 
-export { tasksModule, projectModule};
+export { tasksModule, projectModule };
