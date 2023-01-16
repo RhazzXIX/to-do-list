@@ -231,7 +231,6 @@ const DOM = (function () {
     event.stopPropagation();
     if (!!firstInput.value === true) {
       event.preventDefault();
-      console.log(scndInput.value);
       uProjects.createNewProject(firstInput.value, scndInput.value);
       updateProjectList();
       removeForm(event);
@@ -248,7 +247,6 @@ const DOM = (function () {
   
   // DOM and App bridge
   function showForm(event) {
-    console.log(this);
     event.stopPropagation();
     const form = document.createElement("form");
     form.setAttribute("id", "form");
@@ -323,12 +321,14 @@ const DOM = (function () {
     uProjects.listProjects().forEach((project) => {
       console.log(project.getProjectReference());
       const li = document.createElement("li");
+      li.dataset.ref = project.getProjectReference();
 
       const pName = document.createElement("button");
       pName.classList.add("list");
       pName.textContent = project.getProjectName();
 
       const editProjectBtn = document.createElement("button");
+      editProjectBtn.dataset.ref = project.getProjectReference();
       const editProjectImg = new Image(22, 22);
       editProjectImg.src = EditProject;
       editProjectImg.setAttribute("alt", "Edit Project Icon");
@@ -336,6 +336,7 @@ const DOM = (function () {
       editProjectBtn.appendChild(editProjectImg);
 
       const delBtn = document.createElement("button");
+      delBtn.dataset.ref = project.getProjectReference();
       const delImg = new Image(22, 22);
       delImg.src = Trash;
       delImg.setAttribute("alt", "Trash Icon");

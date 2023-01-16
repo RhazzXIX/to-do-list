@@ -41,11 +41,13 @@ const tasksModule = (function () {
     };
 
     function createReference (task, note) {
-      const ref1 = task.split(' ').reduce((word, word2) => {
+      const ref1 = task.split(' ').reduce((word, word2, i, arr) => {
+        if (i === 2) arr.splice(1);
         word += word2.slice(0,1);
         return word
       },'')
-      const ref2 = note.split(' ').reduce((word, word2) => {
+      const ref2 = note.split(' ').reduce((word, word2, i, arr) => {
+        if (i === 2) arr.splice(1);
         word += word2.slice(0,1);
         return word;
       }, '')
@@ -95,11 +97,13 @@ const projectModule = (function () {
     };
 
     function createReference (name, desc) {
-      const ref1 = name.split(' ').reduce((word, word2) => {
+      const ref1 = name.split(' ').reduce((word, word2, i, arr) => {
+        if (i === 2) arr.splice(1);
         word += word2.slice(0,1);
         return word
       },'')
-      const ref2 = desc.split(' ').reduce((word, word2) => {
+      const ref2 = desc.split(' ').reduce((word, word2, i, arr) => {
+        if (i === 2) arr.splice(1);
         word += word2.slice(0,1);
         return word;
       }, '')
