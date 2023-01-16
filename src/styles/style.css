@@ -193,7 +193,7 @@ section#form {
   /* background-color: rgba(0, 0, 0, 0.2); */
 }
 
-form#form.project {
+form#form {
   padding: 20px 50px;
   background-color: #cbf3f0;
   box-shadow: 1px 1px 4px #2ec4b6;
@@ -218,7 +218,7 @@ label {
   margin: 12px 0;
 }
 
-input, textarea {
+input, textarea, select {
   appearance: none;
   padding: 4px;
   border: 1px solid #ff9f1c;

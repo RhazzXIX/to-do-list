@@ -23,7 +23,7 @@ const uProjects = projectModule();
 // console.log(uProjects.listProjects()[0].getProjectName());
 // console.log(uProjects.listProjects());
 // uProjects.listProjects().forEach((item) => console.log(item.listTasks()));
-uTasks.addTasks("buy groceries", "today", 1, 'local market');
+uTasks.addTasks("buy groceries", "today", 1, "local market");
 // uTasks.addTasks("drop shopee", "today", 2);
 // uTasks.addTasks("pay bills", "today", 1);
 console.log(uTasks.listTasks());
@@ -41,11 +41,11 @@ const DOM = (function () {
   exeLogo.setAttribute("alt", "EXEcute Logo");
   header.appendChild(exeLogo);
 
-  const addTasks = document.createElement("button");
-  addTasks.setAttribute("id", "addTasks");
-  addTasks.classList.add("kit");
-  addTasks.textContent = "+";
-  header.appendChild(addTasks);
+  const addTasksBtn = document.createElement("button");
+  addTasksBtn.setAttribute("id", "addTasks");
+  addTasksBtn.classList.add("kit");
+  addTasksBtn.textContent = "+";
+  header.appendChild(addTasksBtn);
 
   const notif = new Image();
   notif.src = bell;
@@ -158,11 +158,9 @@ const DOM = (function () {
   const sectionForm = document.createElement("section");
 
   sectionForm.setAttribute("id", "form");
-  const form = document.createElement("form");
-  form.setAttribute("id", "form");
+  
 
   const formTitle = document.createElement("h2");
-  formTitle.textContent = "Add Project";
 
   const closeBtn = document.createElement("button");
   closeBtn.classList.add("kit");
@@ -176,125 +174,156 @@ const DOM = (function () {
   formHeader.appendChild(closeBtn);
 
   const firstLabel = document.createElement("label");
-  firstLabel.textContent = "Project Name:";
   firstLabel.setAttribute("for", "firstInput");
 
   const firstInput = document.createElement("input");
   firstInput.setAttribute("id", "firstInput");
   firstInput.setAttribute("required", "");
-  firstLabel.appendChild(firstInput);
 
   const scndLabel = document.createElement("label");
   scndLabel.setAttribute("for", "scndInput");
-  scndLabel.textContent = "Description:";
 
   const scndInput = document.createElement("textarea");
   scndInput.setAttribute("id", "scndInput");
-  scndLabel.appendChild(scndInput);
+
+  const dateLabel = document.createElement('label');
+  dateLabel.textContent = 'Set due date:'
+
   const dateInput = document.createElement("input");
   dateInput.setAttribute("type", "date");
 
+  dateLabel.appendChild(dateInput);
+
+  const priorityLabel = document.createElement('label');
+  priorityLabel.textContent = 'Set priority:'
+
   const priorityInput = document.createElement("select");
+  
   for (let i = 0; i <= 2; i += 1) {
     const option = document.createElement("option");
     switch (i) {
       case 1:
-        option.textContent = "Priority 2";
+        option.textContent = "Medium";
         break;
       case 2:
-        option.textContent = "Priority 3";
+        option.textContent = "Low";
         option.setAttribute("selected", "");
         break;
       default:
-        option.textContent = "Priority 1";
+        option.textContent = "High";
     }
     priorityInput.appendChild(option);
   }
 
+  priorityLabel.appendChild(priorityInput);
+
   const submitBtn = document.createElement("button");
   submitBtn.classList.add("kit");
-  submitBtn.textContent = "Add Project";
+  
 
-  sectionForm.appendChild(form);
-  form.appendChild(formHeader);
-  form.appendChild(firstLabel);
-  form.appendChild(scndLabel);
-  form.appendChild(submitBtn);
-
-  // form.appendChild(scndInput);
-  // form.appendChild(dateInput);
-  // form.appendChild(priorityInput);
-
-  // base.appendChild(sectionForm);
+  
 
   // Bind Events
 
   submitBtn.addEventListener("click", submitForm);
 
-  function submitForm (event) {
+  function submitForm(event) {
     event.stopPropagation();
     if (!!firstInput.value === true) {
       event.preventDefault();
-      console.log(scndInput.value)
+      console.log(scndInput.value);
       uProjects.createNewProject(firstInput.value, scndInput.value);
       updateProjectList();
-      clearForm();
       removeForm(event);
     }
-
   }
 
   addProject.addEventListener("click", showForm);
+  addTasksBtn.addEventListener('click', showForm);
 
+  
+  closeBtn.addEventListener("click", removeForm);
+  
+  sectionForm.addEventListener("mousedown", removeForm);
+  
+  // DOM and App bridge
   function showForm(event) {
+    console.log(this);
     event.stopPropagation();
+    const form = document.createElement("form");
+    form.setAttribute("id", "form");
     if (this === addProject) {
-      form.classList.add("project");
-      form.classList.add("task");
+      formTitle.textContent = "Add Project";
+      scndLabel.textContent = "Description:";
+      firstLabel.textContent = "Project Name:";
+      submitBtn.textContent = "Add Task";
+      firstLabel.appendChild(firstInput);
+      scndLabel.appendChild(scndInput);
+      form.appendChild(formHeader);
+      form.appendChild(firstLabel);
+      form.appendChild(scndLabel);
+      form.appendChild(submitBtn);
+      sectionForm.appendChild(form);
+      base.appendChild(sectionForm);
+    } 
+    if (this === addTasksBtn) {
+      formTitle.textContent = "Add Task";
+      firstLabel.textContent = "Task:";
+      scndLabel.textContent = "Notes:";
+      submitBtn.textContent = "Add Tasks";
+      firstLabel.appendChild(firstInput);
+      scndLabel.appendChild(scndInput);
+      form.appendChild(formHeader);
+      form.appendChild(firstLabel);
+      form.appendChild(dateLabel);
+      form.appendChild(priorityLabel);
+      form.appendChild(scndLabel);
+      form.appendChild(submitBtn);
+      sectionForm.appendChild(form);
       base.appendChild(sectionForm);
     }
   }
 
-  closeBtn.addEventListener("click", removeForm);
-
-  sectionForm.addEventListener("click", removeForm);
-
-  
-  // DOM and App bridge
   function removeForm(event) {
+    event.stopPropagation();
+    const form = sectionForm.querySelector('form#form');
+    if (event.type === "mousedown") {
+      if (event.target !== sectionForm) return;
+      sectionForm.removeChild(form);
+      base.removeChild(sectionForm);
+    }
     switch (event.target) {
-      case (sectionForm):
-        event.stopPropagation();
+      case closeBtn:
+        sectionForm.removeChild(form);
         base.removeChild(sectionForm);
         break;
-      case (closeBtn):
-        event.stopPropagation();
-        base.removeChild(sectionForm);
-        break;
-      case (submitBtn):
-        event.stopPropagation();
+      case submitBtn:
+        sectionForm.removeChild(form);
         base.removeChild(sectionForm);
         break;
       default:
     }
+    clearForm();
   }
 
-  function clearForm () {
-    firstInput.value = '';
-    scndInput.value = '';
+  function clearForm() {
+    firstInput.value = "";
+    scndInput.value = "";
+    dateInput.value = '';
+    priorityInput.value = 'Low'
   }
 
   const updateProjectList = function () {
-    const list = projectList.querySelectorAll('li')
-    
-    list.forEach(project => {
-      projectList.removeChild(project)
+    const list = projectList.querySelectorAll("li");
+
+    list.forEach((project) => {
+      projectList.removeChild(project);
     });
 
     uProjects.listProjects().forEach((project) => {
       console.log(project.getProjectReference());
       const li = document.createElement("li");
-    
+
       const pName = document.createElement("button");
       pName.classList.add("list");
       pName.textContent = project.getProjectName();
@@ -319,5 +348,4 @@ const DOM = (function () {
       projectList.appendChild(li);
     });
   };
-  updateProjectList();
 })();
