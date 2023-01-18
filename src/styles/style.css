@@ -183,9 +183,9 @@ header#todayHeader > button:active {
   border-color: #ff9f1c #ffbf69 #ffbf69 #ff9f1c ;
 }
 
-div.High, 
-div.Medium,
-div.Low {
+div.card.High, 
+div.card.Medium,
+div.card.Low {
   margin: 12px auto;
   width: 574px;
   padding: 8px 12px;
@@ -195,6 +195,10 @@ div.Low {
   align-items: center;
   grid-template-columns: 30px 1fr 100px repeat(3, 30px);
   grid-template-rows: repeat(2, auto);
+}
+
+div.card.crossout {
+  background-color: rgb(235, 235, 235);
 }
 
 div.notes {
@@ -241,6 +245,11 @@ input[type='checkbox']:checked::after {
   width: 6px;
   background-color: #ff9f1c;
   border-radius: 50%;
+}
+
+time.task.crossout,
+p.task.crossout {
+  text-decoration: line-through;
 }
 
 div 
