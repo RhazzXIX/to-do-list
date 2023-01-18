@@ -18,7 +18,7 @@ const tasksModule = (function () {
       let priority = level;
       const taskReference = createReference(task, note)
       if (priority === undefined) priority = 4;
-      return Object.assign(duty, { task, date, priority, taskReference });
+      return Object.assign(duty, { task, date, priority, taskReference, note });
     };
 
     const addTasks = function (task, date, priority, note) {
@@ -56,10 +56,10 @@ const tasksModule = (function () {
       return reference;
     }
 
+
     return Object.assign({}, { addTasks, deleteTasks, listTasks });
   };
 
-  const newTask = CreateTaskList();
 
   return CreateTaskList;
 })();
