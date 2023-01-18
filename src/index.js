@@ -204,6 +204,7 @@ const DOM = (function () {
       
     const noteBtn = document.createElement('button');
     noteBtn.textContent = '⬍'
+    noteBtn.dataset.btn = 'notes'
     noteBtn.dataset.ref = item.taskReference;
     noteBtn.classList.add('cardBtn');
     card.appendChild(noteBtn);
@@ -225,14 +226,9 @@ const DOM = (function () {
     delBtn.appendChild(delImg);
     delBtn.dataset.ref = item.taskReference;
     card.appendChild(delBtn);
-
-    const notes = document.createElement('p');
-    const notesContainer = document.createElement('div');
-    notesContainer.appendChild(notes);
-    notesContainer.classList.add('notes');
-    notes.textContent = item.note;
     
     bindBtnEvents(checkbox);
+    bindBtnEvents(noteBtn)
 
     return card
   }
@@ -314,8 +310,14 @@ const DOM = (function () {
 
   priorityLabel.appendChild(priorityInput);
 
-  const submitBtn = document.createElement("button");
-  submitBtn.classList.add("kit");
+  const submitProjectBtn = document.createElement("button");
+  submitProjectBtn.textContent = "Add Project";
+  submitProjectBtn.classList.add("kit");
+
+  const submitTaskBtn = document.createElement("button");
+  submitTaskBtn.textContent = "Add Task";
+  submitTaskBtn.classList.add("kit");
+
   
   base.appendChild(header);
   base.appendChild(sidebar);
@@ -325,13 +327,18 @@ const DOM = (function () {
 
   // Bind Events
 
-  submitBtn.addEventListener("click", submitForm);
+  submitProjectBtn.addEventListener("click", submitForm);
   addProject.addEventListener("click", showForm);
   addTasksBtn.addEventListener('click', showForm);
   closeBtn.addEventListener("click", removeForm);
   sectionForm.addEventListener("mousedown", removeForm);
-  function bindBtnEvents (button, affected) {
-    switch (button) {
+
+  function bindBtnEvents (button) {
+    switch (button.dataset.btn) {
+      case ('notes'):
+        console.log(button);
+        button.addEventListener('click', addNotes)
+        break;
       default:
         button.addEventListener('click', crossOut)
     }
@@ -346,13 +353,12 @@ const DOM = (function () {
       formTitle.textContent = "Add Project";
       scndLabel.textContent = "Description:";
       firstLabel.textContent = "Project Name:";
-      submitBtn.textContent = "Add Task";
       firstLabel.appendChild(firstInput);
       scndLabel.appendChild(scndInput);
       form.appendChild(formHeader);
       form.appendChild(firstLabel);
       form.appendChild(scndLabel);
-      form.appendChild(submitBtn);
+      form.appendChild(submitProjectBtn);
       sectionForm.appendChild(form);
       base.appendChild(sectionForm);
     } 
@@ -360,7 +366,6 @@ const DOM = (function () {
       formTitle.textContent = "Add Task";
       firstLabel.textContent = "Task:";
       scndLabel.textContent = "Notes:";
-      submitBtn.textContent = "Add Tasks";
       firstLabel.appendChild(firstInput);
       scndLabel.appendChild(scndInput);
       form.appendChild(formHeader);
@@ -368,7 +373,7 @@ const DOM = (function () {
       form.appendChild(dateLabel);
       form.appendChild(priorityLabel);
       form.appendChild(scndLabel);
-      form.appendChild(submitBtn);
+      form.appendChild(submitTaskBtn);
       sectionForm.appendChild(form);
       base.appendChild(sectionForm);
     }
@@ -485,6 +490,34 @@ const DOM = (function () {
       date.classList.remove('crossout');
       card.classList.remove('crossout');
     }
+  }
+
+  function addNotes (e) {
+    e.stopPropagation();
+    const div = document.querySelectorAll('div.card');
+    let card;
+    div.forEach((entry) => {
+      if (entry.dataset.ref === this.dataset.ref) {
+        card = entry
+      }
+    })
+    let item; 
+    uTasks.listTasks().forEach((task) => {
+      if (task.taskReference === this.dataset.ref)
+      item = task;
+    })
+    const notes = document.createElement('p');
+    const notesContainer = document.createElement('div');
+    notesContainer.appendChild(notes);
+    notesContainer.classList.add('notes');
+    notes.textContent = item.note;
+    if (!card.querySelector('div.notes')) {
+      card.appendChild(notesContainer);
+    } else { 
+      const notesRemove = card.querySelector('div.notes');
+      card.removeChild(notesRemove);
+     }
+
   }
 
   updateProjectList();
