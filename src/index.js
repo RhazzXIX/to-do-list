@@ -18,17 +18,21 @@ const uTasks = tasksModule();
 // console.log(uTasks);
 const uProjects = projectModule();
 console.log(uTasks);
-uProjects.createNewProject('To Do List', '');
+uProjects.createNewProject("To Do List", "");
 
-
-uProjects.listProjects()[0].addTasks("buy soil", "01-25-2023", 'low', '');
+uProjects.listProjects()[0].addTasks("buy soil", "01-25-2023", "low", "");
 // uProjects.listProjects()[1].addTasks();
 // console.log(uProjects.listProjects()[0].getProjectName());
 // console.log(uProjects.listProjects());
 // uProjects.listProjects().forEach((item) => console.log(item.listTasks()));
-uTasks.addTasks("buy groceries", "01-25-2023", 'Low', "local market");
-uTasks.addTasks("buy soil", "01-25-2023", 'Medium', "Loam soil is preferred");
-uTasks.addTasks('pay Bills', '01-18-2023', 'High', 'Electric Bill and Water Bill')
+uTasks.addTasks("buy groceries", "01-25-2023", "Low", "local market");
+uTasks.addTasks("buy soil", "01-25-2023", "Medium", "Loam soil is preferred");
+uTasks.addTasks(
+  "pay Bills",
+  "01-18-2023",
+  "High",
+  "Electric Bill and Water Bill"
+);
 // uTasks.addTasks("drop shopee", "today", 2);
 // uTasks.addTasks("pay bills", "today", 1);
 console.log(uTasks.listTasks());
@@ -64,6 +68,7 @@ const DOM = (function () {
     currentTime = format(new Date(), "hh:mm:ss aa");
     time.textContent = `${currentTime}   ${currentDate}`;
     time.setAttribute("datetime", `${currentTime}  ${currentDate}`);
+    return currentDate;
   };
 
   setInterval(() => timeUpdate(), 1000);
@@ -150,106 +155,37 @@ const DOM = (function () {
   const main = document.createElement("main");
   main.setAttribute("id", "content");
 
+  
   // const sectionToday = document.createElement('section');
 
-  const taskSection = document.createElement('section');
+  const taskSection = document.createElement("section");
   
-  const todayHeader = document.createElement('header');
-  todayHeader.setAttribute('id', 'todayHeader');
+  const todayHeader = document.createElement("header");
+  todayHeader.setAttribute("id", "todayHeader");
   taskSection.appendChild(todayHeader);
   
-  const taskHeader = document.createElement('h1');
-  taskHeader.classList.add('taskHeader');
-  taskHeader.textContent = "Today's Tasks"
-  todayHeader.appendChild(taskHeader)
+  const taskHeader = document.createElement("h1");
+  taskHeader.classList.add("taskHeader");
+  taskHeader.textContent = "Today's Tasks";
+  todayHeader.appendChild(taskHeader);
   
   const addTasksBtn = document.createElement("button");
   addTasksBtn.setAttribute("id", "addTasks");
   addTasksBtn.classList.add("kit");
   addTasksBtn.textContent = "+";
   todayHeader.appendChild(addTasksBtn);
-
-  function addCards () {
-    uTasks.listTasks().forEach((item) => {
-      const card = createCards(item);
-      taskSection.appendChild(card);
-      main.appendChild(taskSection);
-    })
-  }
-  
-  function createCards(item) {
-    const card = document.createElement('div');
-    card.classList.add('card');
-    card.dataset.ref = item.taskReference;
-    card.classList.add(item.priority)
-    
-
-    const checkbox = document.createElement('input');
-    checkbox.setAttribute('type', 'checkbox')
-    checkbox.dataset.btn = 'checkbox'
-    checkbox.dataset.ref = item.taskReference;
-    card.appendChild(checkbox)
-    
-    const task = document.createElement('p');
-    task.textContent = item.task;
-    task.classList.add('task');
-    task.dataset.ref = item.taskReference;
-    card.appendChild(task);
-
-    const date = document.createElement('time');
-    date.textContent = item.date;
-    date.dataset.ref = item.taskReference;
-    date.classList.add('task');
-    card.appendChild(date);
-      
-    const noteBtn = document.createElement('button');
-    noteBtn.textContent = '⬍'
-    noteBtn.dataset.btn = 'notes'
-    noteBtn.dataset.ref = item.taskReference;
-    noteBtn.classList.add('cardBtn');
-    card.appendChild(noteBtn);
-
-    const editProjectBtn = document.createElement("button");
-    const editProjectImg = new Image(22, 22);
-    editProjectImg.src = EditProject;
-    editProjectImg.setAttribute("alt", "Edit Project Icon");
-    editProjectBtn.classList.add("cardBtn");
-    editProjectBtn.appendChild(editProjectImg);
-    editProjectBtn.dataset.ref = item.taskReference;
-    card.appendChild(editProjectBtn);
-    
-    const delBtn = document.createElement("button");
-    const delImg = new Image(22, 22);
-    delImg.src = Trash;
-    delImg.setAttribute("alt", "Trash Icon");
-    delBtn.classList.add("cardBtn");
-    delBtn.appendChild(delImg);
-    delBtn.dataset.ref = item.taskReference;
-    card.appendChild(delBtn);
-    
-    bindBtnEvents(checkbox);
-    bindBtnEvents(noteBtn)
-
-    return card
-  }
-
-  addCards();
-
   
   
+  main.appendChild(taskSection);
   // sectionToday.appendChild(taskSection);
-
-
   
-
   // Input Forms
   const sectionForm = document.createElement("section");
 
   sectionForm.setAttribute("id", "form");
   
-
   const formTitle = document.createElement("h2");
-
+  
   const closeBtn = document.createElement("button");
   closeBtn.classList.add("kit");
   closeBtn.setAttribute("type", "button");
@@ -267,7 +203,7 @@ const DOM = (function () {
   const firstInput = document.createElement("input");
   firstInput.setAttribute("id", "firstInput");
   firstInput.setAttribute("required", "");
-  firstInput.setAttribute('type', 'text');
+  firstInput.setAttribute("type", "text");
 
   const scndLabel = document.createElement("label");
   scndLabel.setAttribute("for", "scndInput");
@@ -275,23 +211,23 @@ const DOM = (function () {
   const scndInput = document.createElement("textarea");
   scndInput.setAttribute("id", "scndInput");
 
-  const dateLabel = document.createElement('label');
-  dateLabel.textContent = 'Set due date:'
-  dateLabel.setAttribute('for', 'date');
+  const dateLabel = document.createElement("label");
+  dateLabel.textContent = "Set due date:";
+  dateLabel.setAttribute("for", "date");
 
   const dateInput = document.createElement("input");
   dateInput.setAttribute("type", "date");
-  dateInput.setAttribute('id', 'date');
+  dateInput.setAttribute("id", "date");
 
   dateLabel.appendChild(dateInput);
 
-  const priorityLabel = document.createElement('label');
-  priorityLabel.textContent = 'Set priority:'
-  priorityLabel.setAttribute('for', 'priority');
+  const priorityLabel = document.createElement("label");
+  priorityLabel.textContent = "Set priority:";
+  priorityLabel.setAttribute("for", "priority");
 
   const priorityInput = document.createElement("select");
-  priorityInput.setAttribute('id', 'priority');
-  
+  priorityInput.setAttribute("id", "priority");
+
   for (let i = 0; i <= 2; i += 1) {
     const option = document.createElement("option");
     switch (i) {
@@ -318,32 +254,29 @@ const DOM = (function () {
   submitTaskBtn.textContent = "Add Task";
   submitTaskBtn.classList.add("kit");
 
-  
   base.appendChild(header);
   base.appendChild(sidebar);
   base.appendChild(main);
 
-  
-
   // Bind Events
 
-  submitProjectBtn.addEventListener("click", submitForm);
+  submitProjectBtn.addEventListener("click", checkForm);
   addProject.addEventListener("click", showForm);
-  addTasksBtn.addEventListener('click', showForm);
+  addTasksBtn.addEventListener("click", showForm);
   closeBtn.addEventListener("click", removeForm);
   sectionForm.addEventListener("mousedown", removeForm);
+  submitTaskBtn.addEventListener("click", checkForm);
 
-  function bindBtnEvents (button) {
+  function bindBtnEvents(button) {
     switch (button.dataset.btn) {
-      case ('notes'):
-        console.log(button);
-        button.addEventListener('click', addNotes)
+      case "notes":
+        button.addEventListener("click", addNotes);
         break;
       default:
-        button.addEventListener('click', crossOut)
+        button.addEventListener("click", crossOut);
     }
   }
-  
+
   // DOM and App bridge
   function showForm(event) {
     event.stopPropagation();
@@ -361,7 +294,7 @@ const DOM = (function () {
       form.appendChild(submitProjectBtn);
       sectionForm.appendChild(form);
       base.appendChild(sectionForm);
-    } 
+    }
     if (this === addTasksBtn) {
       formTitle.textContent = "Add Task";
       firstLabel.textContent = "Task:";
@@ -372,20 +305,21 @@ const DOM = (function () {
       form.appendChild(firstLabel);
       form.appendChild(dateLabel);
       form.appendChild(priorityLabel);
+
       form.appendChild(scndLabel);
       form.appendChild(submitTaskBtn);
       sectionForm.appendChild(form);
       base.appendChild(sectionForm);
     }
   }
-  
+
   function removeForm(event) {
     event.stopPropagation();
-    const form = sectionForm.querySelector('form#form');
+    const form = sectionForm.querySelector("form#form");
     if (event.type === "mousedown") {
       if (event.target !== sectionForm) return;
       sectionForm.removeChild(form);
-    
+
       base.removeChild(sectionForm);
     }
     switch (event.target) {
@@ -393,7 +327,11 @@ const DOM = (function () {
         sectionForm.removeChild(form);
         base.removeChild(sectionForm);
         break;
-      case submitBtn:
+      case submitProjectBtn:
+        sectionForm.removeChild(form);
+        base.removeChild(sectionForm);
+        break;
+      case submitTaskBtn:
         sectionForm.removeChild(form);
         base.removeChild(sectionForm);
         break;
@@ -405,20 +343,104 @@ const DOM = (function () {
   function clearForm() {
     firstInput.value = "";
     scndInput.value = "";
-    dateInput.value = '';
-    priorityInput.value = 'Low'
+    dateInput.value = "";
+    priorityInput.value = "Low";
   }
 
-  function submitForm(event) {
+  function checkForm(event) {
     event.stopPropagation();
     if (!!firstInput.value === true) {
       event.preventDefault();
-      uProjects.createNewProject(firstInput.value, scndInput.value);
-      updateProjectList();
+      switch (true) {
+        case this === submitProjectBtn:
+          uProjects.createNewProject(firstInput.value, scndInput.value);
+          updateProjectList();
+          break;
+        default:
+          if (!dateInput.value) {
+            const today = format(new Date(), "yyyy-MM-dd");
+            dateInput.value = today;
+          }
+          uTasks.addTasks(
+            firstInput.value,
+            dateInput.value,
+            priorityInput.value,
+            scndInput.value
+          );
+          updateTasksList();
+      }
       removeForm(event);
     }
   }
-  
+
+  function addCards() {
+    uTasks.listTasks().forEach((item) => {
+      const card = createCards(item);
+      taskSection.appendChild(card);
+    });
+  }
+
+  function createCards(item) {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.dataset.ref = item.taskReference;
+    card.classList.add(item.priority);
+
+    const checkbox = document.createElement("input");
+    checkbox.setAttribute("type", "checkbox");
+    checkbox.dataset.btn = "checkbox";
+    checkbox.dataset.ref = item.taskReference;
+    card.appendChild(checkbox);
+
+    const task = document.createElement("p");
+    task.textContent = item.task;
+    task.classList.add("task");
+    task.dataset.ref = item.taskReference;
+    card.appendChild(task);
+
+    const date = document.createElement("time");
+    date.textContent = item.date;
+    date.dataset.ref = item.taskReference;
+    date.classList.add("task");
+    card.appendChild(date);
+
+    const noteBtn = document.createElement("button");
+    noteBtn.textContent = "⬍";
+    noteBtn.dataset.btn = "notes";
+    noteBtn.dataset.ref = item.taskReference;
+    noteBtn.classList.add("cardBtn");
+    card.appendChild(noteBtn);
+
+    const editProjectBtn = document.createElement("button");
+    const editProjectImg = new Image(22, 22);
+    editProjectImg.src = EditProject;
+    editProjectImg.setAttribute("alt", "Edit Project Icon");
+    editProjectBtn.classList.add("cardBtn");
+    editProjectBtn.appendChild(editProjectImg);
+    editProjectBtn.dataset.ref = item.taskReference;
+    card.appendChild(editProjectBtn);
+
+    const delBtn = document.createElement("button");
+    const delImg = new Image(22, 22);
+    delImg.src = Trash;
+    delImg.setAttribute("alt", "Trash Icon");
+    delBtn.classList.add("cardBtn");
+    delBtn.appendChild(delImg);
+    delBtn.dataset.ref = item.taskReference;
+    card.appendChild(delBtn);
+
+    bindBtnEvents(checkbox);
+    bindBtnEvents(noteBtn);
+
+    return card;
+  }
+
+  function updateTasksList() {
+    const cards = taskSection.querySelectorAll("div.card");
+    cards.forEach((card) => taskSection.removeChild(card));
+    addCards();
+  }
+
   const updateProjectList = function () {
     const list = projectList.querySelectorAll("li");
 
@@ -458,66 +480,64 @@ const DOM = (function () {
     });
   };
 
-  function crossOut (event) {
+  function crossOut(event) {
     event.stopPropagation();
-    const p = document.querySelectorAll('p.task');
-    const time = document.querySelectorAll('time.task');
-    const div = document.querySelectorAll('div.card');
-    let task,
-      date,
-      card;
+    const p = document.querySelectorAll("p.task");
+    const time = document.querySelectorAll("time.task");
+    const div = document.querySelectorAll("div.card");
+    let task;
+    let date;
+    let card;
     p.forEach((entry) => {
       if (entry.dataset.ref === this.dataset.ref) {
-        task = entry
+        task = entry;
       }
-    })
+    });
     time.forEach((entry) => {
       if (entry.dataset.ref === this.dataset.ref) {
-        date = entry
+        date = entry;
       }
-    })
+    });
     div.forEach((entry) => {
       if (entry.dataset.ref === this.dataset.ref) {
-        card = entry
+        card = entry;
       }
-    })
-    if (this.checked) {     
-      task.classList.add('crossout');
-      date.classList.add('crossout');
-      card.classList.add('crossout');
-    } else { 
-      task.classList.remove('crossout');
-      date.classList.remove('crossout');
-      card.classList.remove('crossout');
+    });
+    if (this.checked) {
+      task.classList.add("crossout");
+      date.classList.add("crossout");
+      card.classList.add("crossout");
+    } else {
+      task.classList.remove("crossout");
+      date.classList.remove("crossout");
+      card.classList.remove("crossout");
     }
   }
 
-  function addNotes (e) {
+  function addNotes(e) {
     e.stopPropagation();
-    const div = document.querySelectorAll('div.card');
+    const div = document.querySelectorAll("div.card");
     let card;
     div.forEach((entry) => {
       if (entry.dataset.ref === this.dataset.ref) {
-        card = entry
+        card = entry;
       }
-    })
-    let item; 
+    });
+    let item;
     uTasks.listTasks().forEach((task) => {
-      if (task.taskReference === this.dataset.ref)
-      item = task;
-    })
-    const notes = document.createElement('p');
-    const notesContainer = document.createElement('div');
+      if (task.taskReference === this.dataset.ref) item = task;
+    });
+    const notes = document.createElement("p");
+    const notesContainer = document.createElement("div");
     notesContainer.appendChild(notes);
-    notesContainer.classList.add('notes');
+    notesContainer.classList.add("notes");
     notes.textContent = item.note;
-    if (!card.querySelector('div.notes')) {
+    if (!card.querySelector("div.notes")) {
       card.appendChild(notesContainer);
-    } else { 
-      const notesRemove = card.querySelector('div.notes');
+    } else {
+      const notesRemove = card.querySelector("div.notes");
       card.removeChild(notesRemove);
-     }
-
+    }
   }
 
   updateProjectList();
