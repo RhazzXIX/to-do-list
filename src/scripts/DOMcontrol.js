@@ -174,7 +174,8 @@ const DOMcontrol = (function() {
   }
 
   function addCards(section, tasks) {
-    tasks.listTasks().forEach((task) => {
+    console.log(tasks)
+    tasks.forEach((task) => {
       const card = createCards(task);
       section.appendChild(card);
     });

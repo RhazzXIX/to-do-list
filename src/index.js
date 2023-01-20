@@ -9,7 +9,7 @@ const uTasks = tasksModule();
 const uProjects = projectModule();
 const allProjects = uProjects.listProjects();
 
-uTasks.addTasks("buy groceries", "20th-Jan.-2023", "Low", "local market");
+uTasks.addTasks("buy groceries", "28th-Jan.-2023", "Low", "local market");
 uTasks.addTasks("buy soil", "20th-Jan.-2023", "Medium", "Loam soil is preferred");
 uTasks.addTasks(
   "pay Bills",
@@ -20,7 +20,7 @@ uTasks.addTasks(
 
 uProjects.createNewProject("To Do List", "Create a to do list");
 uProjects.createNewProject("Test Project", "Test this projects");
-allProjects[0].addTasks("test Task", "28th-Jan.-2023", "Low", "just testing on adding task")
+allProjects[0].addTasks("test Task", "7th-Jan.-2023", "Low", "just testing on adding task")
 
 const getCurrentDate = function () {
   const dateToday = format(new Date(), 'do-MMM.-yyyy');
@@ -51,15 +51,23 @@ const getUpcomingTasks = function () {
   const tasks = getAllTasks().filter((task => {
     const taskDate = parse(task.date, "do-MMM.-yyyy", new Date ())
     const dateToday = parse(getCurrentDate(), "do-MMM.-yyyy", new Date ())
-    return compareAsc(taskDate, dateToday);
+    if (compareAsc(taskDate, dateToday) === 1) return task;
   }))
   return tasks
 }
 
+const getOverdueTasks = function () {
+  const tasks = getAllTasks().filter((task => {
+    const taskDate = parse(task.date, "do-MMM.-yyyy", new Date ())
+    const dateToday = parse(getCurrentDate(), "do-MMM.-yyyy", new Date ())
+    if (compareAsc(dateToday, taskDate) === -1) return task;
+  }))
+  return tasks
+}
 console.log(getAllTasks());
 console.log(getTasksToday());
 console.log(getUpcomingTasks())
-
+console.log(getOverdueTasks());
 
 
 const controlDOM = DOMcontrol();
@@ -75,16 +83,18 @@ const bindInitialBtn = function (e) {
   bindEvents(mainDOM.btnBoard);
   bindEvents(mainDOM.btnToday);
   bindEvents(mainDOM.addProject);
+  bindEvents(mainDOM.btnComing);
 };
 
 let form;
 let taskSection;
 let projectSection;
+
 taskSection = controlDOM.createTaskSection();
 projectSection = controlDOM.createProjectSummarySection();
 mainDOM.main.appendChild(taskSection.section);
 mainDOM.main.appendChild(projectSection.section);
-controlDOM.addCards(taskSection.section, uTasks);
+controlDOM.addCards(taskSection.section, getAllTasks());
 controlDOM.addProjectSummaryCards(
   projectSection.section,
   uProjects.listProjects()
@@ -95,16 +105,49 @@ const removeForm = function (e) {
   controlDOM.removeForm(mainDOM.base);
 };
 
+const bindEvents = function (element) {
+  switch (element) {
+    case mainDOM.btnBoard:
+      mainDOM.btnBoard.addEventListener("click", displayContent);
+      break;
+    case mainDOM.btnToday:
+      mainDOM.btnToday.addEventListener("click", displayContent);
+      break;
+    case mainDOM.addProject:
+      mainDOM.addProject.addEventListener("click", displayContent);
+      break;
+    case mainDOM.btnComing:
+      mainDOM.btnComing.addEventListener('click', displayContent);
+    break;
+    case form.closeBtn:
+      form.closeBtn.addEventListener("click", removeForm);
+      break;
+    // case form.submitProjectBtn:
+    //   form.submitProjectBtn.addEventListener ()
+    default:
+      element.addEventListener("click", (e) => console.log(btn));
+      console.log(element);
+  }
+};
+
 const displayContent = function (e) {
   e.stopPropagation();
   console.log(this);
   switch (this) {
     case mainDOM.btnToday:
-      console.log("activated");
       controlDOM.removeSections(mainDOM.main);
       taskSection = controlDOM.createTaskSection();
       taskSection.title.textContent = 'Todays tasks:'
       mainDOM.main.appendChild(taskSection.section);
+      controlDOM.addCards(taskSection.section, getTasksToday());
+      break;
+    case mainDOM.btnComing:
+      console.log('activated')
+      controlDOM.removeSections(mainDOM.main);
+      taskSection = controlDOM.createTaskSection();
+      taskSection.title.textContent = 'Upcoming tasks:'
+      mainDOM.main.appendChild(taskSection.section);
+      controlDOM.addCards(taskSection.section, getUpcomingTasks());
       break;
     case mainDOM.addProject:
       controlDOM.removeForm(mainDOM.main);
@@ -120,34 +163,14 @@ const displayContent = function (e) {
       projectSection = controlDOM.createProjectSummarySection();
       mainDOM.main.appendChild(taskSection.section);
       mainDOM.main.appendChild(projectSection.section);
-      controlDOM.addCards(taskSection.section, uTasks);
+      controlDOM.addCards(taskSection.section, getAllTasks());
       controlDOM.addProjectSummaryCards(
         projectSection.section,
-        uProjects.listProjects()
+        allProjects
       );
   }
 };
 
-const bindEvents = function (element) {
-  switch (element) {
-    case mainDOM.btnBoard:
-      mainDOM.btnBoard.addEventListener("click", displayContent);
-      break;
-    case mainDOM.btnToday:
-      mainDOM.btnToday.addEventListener("click", displayContent);
-      break;
-    case mainDOM.addProject:
-      mainDOM.addProject.addEventListener("click", displayContent);
-      break;
-    case form.closeBtn:
-      form.closeBtn.addEventListener("click", removeForm);
-      break;
-    // case form.submitProjectBtn:
-    //   form.submitProjectBtn.addEventListener ()
-    default:
-      element.addEventListener("click", (e) => console.log(btn));
-      console.log(element);
-  }
-};
+
 
 window.addEventListener("load", bindInitialBtn);
