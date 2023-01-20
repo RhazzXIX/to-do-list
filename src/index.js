@@ -64,10 +64,57 @@ const getOverdueTasks = function () {
   }))
   return tasks
 }
+
+const sortToHigh = function(array) {
+  const highToLow = array.sort((task1, task2) => {
+    let priority = 0;
+    
+    switch (true) {
+      case (task1.priority === 'High' && task2.priority === 'High'):
+        priority = 0;
+        break;
+      case (task1.priority === 'High' && task2.priority === 'Medium'):
+        priority = -1;
+        break;
+      case (task1.priority === 'High' && task2.priority === 'Low'):
+        priority = -2;
+        break;
+      case (task1.priority === 'Medium' && task2.priority === 'High'):
+        priority = 1
+        break;
+      case (task1.priority === 'Medium' && task2.priority === 'Low'):
+        priority = -1;
+        break;
+      case (task1.priority === 'Low' && task2.priority === 'High'):
+        priority = 2;
+        break;
+      case (task1.priority === 'Low' && task2.priority === 'Medium'):
+        priority = 1;
+        break;
+      case (task1.priority === 'Low' && task2.priority === 'Low'):
+        priority = 0;
+        break;
+      default:
+        priority = 0
+    }
+    return priority;
+  })
+  return highToLow
+}
+
+const reverseSort = function (array) {
+  const reversedArray = array.reverse();
+  return reversedArray;
+};
+
+
+console.log(sortToHigh(getAllTasks()));
+console.log(reverseSort(sortToHigh(getAllTasks())))
+
 console.log(getAllTasks());
-console.log(getTasksToday());
-console.log(getUpcomingTasks())
-console.log(getOverdueTasks());
+// console.log(getTasksToday());
+// console.log(getUpcomingTasks())
+// console.log(getOverdueTasks());
 
 
 const controlDOM = DOMcontrol();

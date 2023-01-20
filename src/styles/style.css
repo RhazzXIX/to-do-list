@@ -190,8 +190,8 @@ h1 {
 }
 
 header#taskHeader > button {
-  width: 28px;
-  font-size: 1.3rem;
+  width: 26px;
+  font-size: 1.2rem;
   border-radius: 50%;
   border-color: #ffbf69 #ff9f1c #ff9f1c #ffbf69 ;
   color: #2ec4b6;
