@@ -9,19 +9,6 @@ const uTasks = tasksModule();
 const uProjects = projectModule();
 const allProjects = uProjects.listProjects();
 
-uTasks.addTasks("buy groceries", "28th-Jan.-2023", "Low", "local market");
-uTasks.addTasks("buy soil", "20th-Jan.-2023", "Medium", "Loam soil is preferred");
-uTasks.addTasks(
-  "pay Bills",
-  "20th-Jan.-2023",
-  "High",
-  "Electric Bill and Water Bill"
-);
-
-uProjects.createNewProject("To Do List", "Create a to do list");
-uProjects.createNewProject("Test Project", "Test this projects");
-allProjects[0].addTasks("test Task", "7th-Jan.-2023", "Low", "just testing on adding task")
-
 const getCurrentDate = function () {
   const dateToday = format(new Date(), 'do-MMM.-yyyy');
   return dateToday;
@@ -68,7 +55,6 @@ const getOverdueTasks = function () {
 const sortToHigh = function(array) {
   const highToLow = array.sort((task1, task2) => {
     let priority = 0;
-    
     switch (true) {
       case (task1.priority === 'High' && task2.priority === 'High'):
         priority = 0;
@@ -108,15 +94,6 @@ const reverseSort = function (array) {
 };
 
 
-console.log(sortToHigh(getAllTasks()));
-console.log(reverseSort(sortToHigh(getAllTasks())))
-
-console.log(getAllTasks());
-// console.log(getTasksToday());
-// console.log(getUpcomingTasks())
-// console.log(getOverdueTasks());
-
-
 const controlDOM = DOMcontrol();
 console.log(controlDOM);
 
@@ -136,16 +113,6 @@ const bindInitialBtn = function (e) {
 let form;
 let taskSection;
 let projectSection;
-
-taskSection = controlDOM.createTaskSection();
-projectSection = controlDOM.createProjectSummarySection();
-mainDOM.main.appendChild(taskSection.section);
-mainDOM.main.appendChild(projectSection.section);
-controlDOM.addCards(taskSection.section, getAllTasks());
-controlDOM.addProjectSummaryCards(
-  projectSection.section,
-  uProjects.listProjects()
-);
 
 const removeForm = function (e) {
   e.stopPropagation();
@@ -218,6 +185,27 @@ const displayContent = function (e) {
   }
 };
 
+uTasks.addTasks("buy groceries", "28th-Jan.-2023", "Low", "local market");
+uTasks.addTasks("buy soil", getCurrentDate(), "Medium", "Loam soil is preferred");
+uTasks.addTasks(
+  "pay Bills",
+  getCurrentDate(),
+  "High",
+  "Electric Bill and Water Bill"
+);
 
+uProjects.createNewProject("To Do List", "Create a to do list");
+uProjects.createNewProject("Test Project", "Test this projects");
+allProjects[0].addTasks("test Task", "7th-Jan.-2023", "Low", "just testing on adding task")
+
+taskSection = controlDOM.createTaskSection();
+projectSection = controlDOM.createProjectSummarySection();
+mainDOM.main.appendChild(taskSection.section);
+mainDOM.main.appendChild(projectSection.section);
+controlDOM.addCards(taskSection.section, getAllTasks());
+controlDOM.addProjectSummaryCards(
+  projectSection.section,
+  uProjects.listProjects()
+);
 
 window.addEventListener("load", bindInitialBtn);

@@ -4,13 +4,13 @@ const tasksModule = (function () {
     const tasks = [];
 
     const Task = function () {
-      const getPriority = function () {
-        console.log(this.priority);
+      const completed = false;
+      const toggleStatus = function () {
+        if (!this.completed) {
+          this.completed = true;
+        } else { this.completed = false; }
       };
-      const returnTask = function () {
-        return this;
-      };
-      return { getPriority, returnTask };
+      return { completed, toggleStatus };
     };
 
     const NewTask = function (task, date, level, note) {
