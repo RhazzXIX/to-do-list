@@ -204,9 +204,7 @@ const DOM = (function () {
 
   priorityLabel.appendChild(priorityInput);
 
-  const submitProjectBtn = document.createElement("button");
-  submitProjectBtn.textContent = "Add Project";
-  submitProjectBtn.classList.add("kit");
+  
 
   const submitTaskBtn = document.createElement("button");
   submitTaskBtn.textContent = "Add Task";
@@ -218,8 +216,8 @@ const DOM = (function () {
 
   // Bind Events
 
-  submitProjectBtn.addEventListener("click", checkForm);
-  addProject.addEventListener("click", showForm);
+  // submitProjectBtn.addEventListener("click", checkForm);
+  // addProject.addEventListener("click", showForm);
   // addTasksBtn.addEventListener("click", showForm);
   closeBtn.addEventListener("click", removeForm);
   sectionForm.addEventListener("mousedown", removeForm);
@@ -331,67 +329,7 @@ const DOM = (function () {
     }
   }
 
-  function addCards() {
-    uTasks.listTasks().forEach((item) => {
-      const card = createCards(item);
-      taskSection.appendChild(card);
-    });
-  }
-
-  function createCards(item) {
-    const card = document.createElement("div");
-    card.classList.add("card");
-    card.dataset.ref = item.taskReference;
-    card.classList.add(item.priority);
-
-    const checkbox = document.createElement("input");
-    checkbox.setAttribute("type", "checkbox");
-    checkbox.dataset.btn = "checkbox";
-    checkbox.dataset.ref = item.taskReference;
-    card.appendChild(checkbox);
-
-    const task = document.createElement("p");
-    task.textContent = item.task;
-    task.classList.add("task");
-    task.dataset.ref = item.taskReference;
-    card.appendChild(task);
-
-    const date = document.createElement("time");
-    date.textContent = item.date;
-    date.dataset.ref = item.taskReference;
-    date.classList.add("task");
-    card.appendChild(date);
-
-    const noteBtn = document.createElement("button");
-    noteBtn.textContent = "⬍";
-    noteBtn.dataset.btn = "notes";
-    noteBtn.dataset.ref = item.taskReference;
-    noteBtn.classList.add("cardBtn");
-    card.appendChild(noteBtn);
-
-    const editProjectBtn = document.createElement("button");
-    const editProjectImg = new Image(22, 22);
-    editProjectImg.src = EditProject;
-    editProjectImg.setAttribute("alt", "Edit Project Icon");
-    editProjectBtn.classList.add("cardBtn");
-    editProjectBtn.appendChild(editProjectImg);
-    editProjectBtn.dataset.ref = item.taskReference;
-    card.appendChild(editProjectBtn);
-
-    const delBtn = document.createElement("button");
-    const delImg = new Image(22, 22);
-    delImg.src = Trash;
-    delImg.setAttribute("alt", "Trash Icon");
-    delBtn.classList.add("cardBtn");
-    delBtn.appendChild(delImg);
-    delBtn.dataset.ref = item.taskReference;
-    card.appendChild(delBtn);
-
-    bindBtnEvents(checkbox);
-    bindBtnEvents(noteBtn);
-
-    return card;
-  }
+  
 
   function updateTasksList() {
     const cards = taskSection.querySelectorAll("div.card");
@@ -498,7 +436,7 @@ const DOM = (function () {
     }
   }
 
-  return {base, main, btnBoard, btnComing, btnProject, btnToday,}
+  return {base, main, btnBoard, btnComing, btnProject, btnToday, addProject}
 });
 
 export default DOM

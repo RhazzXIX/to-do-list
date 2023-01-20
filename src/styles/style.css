@@ -161,8 +161,9 @@ main {
   height: 100%;
   padding: 30px;
   display: grid;
-  gap: 8px;
-  grid-template-columns: 1fr 250px;
+  gap: 36px;
+  grid-template-columns: minmax(574px, 800px) repeat(auto-fit, 250px);
+  justify-content: center;
 }
 
 main section
@@ -189,8 +190,8 @@ h1 {
 }
 
 header#taskHeader > button {
-  width: 32px;
-  font-size: 1.5rem;
+  width: 28px;
+  font-size: 1.3rem;
   border-radius: 50%;
   border-color: #ffbf69 #ff9f1c #ff9f1c #ffbf69 ;
   color: #2ec4b6;
@@ -200,14 +201,28 @@ header#taskHeader > button:active {
   border-color: #ff9f1c #ffbf69 #ffbf69 #ff9f1c ;
 }
 
-div.card.High, 
-div.card.Medium,
-div.card.Low {
+div.card {
   margin: 12px auto;
-  width: 574px;
+  width: 220px;
   padding: 8px 12px;
   border-radius: 8px;
   box-shadow: 2px 2px 4px grey;
+}
+
+div.card:hover {
+  box-shadow: 3px 3px 6px #2ec4b6;
+}
+
+div.card > h3 {
+  padding-bottom: 2px;
+  border-bottom: 2px solid grey;
+  margin-bottom: 8px;
+}
+
+div.card.High, 
+div.card.Medium,
+div.card.Low {
+  width: 574px;
   display: grid;
   align-items: center;
   grid-template-columns: 30px 1fr 100px repeat(3, 30px);
@@ -291,7 +306,7 @@ section#form {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-form#form {
+form.form {
   grid-area: 2 / 2 / 3 / 3;
   padding: 20px 50px;
   background-color: #cbf3f0;
@@ -299,13 +314,27 @@ form#form {
   border-radius: 8px;
 }
 
-form#form header {
+form.form header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-form#form 
+form.form
+button {
+  margin-left: auto;
+  padding: 4px 8px;
+  border-radius: 10px;
+  border-color: #ffbf69 #ff9f1c #ff9f1c #ffbf69;
+  color: #2ec4b6;
+}
+
+form.form
+button:active {
+  border-color: #ff9f1c #ffbf69 #ffbf69 #ff9f1c;
+}
+
+form.form 
 button#closeButton {
   padding: 0 2px;
 }
@@ -340,18 +369,4 @@ textarea {
   resize: none;
   width: 210px;
   height: 100px;
-}
-
-form#form
-button {
-  margin-left: auto;
-  padding: 4px 8px;
-  border-radius: 10px;
-  border-color: #ffbf69 #ff9f1c #ff9f1c #ffbf69;
-  color: #2ec4b6;
-}
-
-form#form
-button:active {
-  border-color: #ff9f1c #ffbf69 #ffbf69 #ff9f1c;
 }
