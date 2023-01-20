@@ -3,27 +3,27 @@ import { tasksModule, projectModule } from "./scripts/app";
 import DOM from "./scripts/DOM";
 import DOMcontrol from "./scripts/DOMcontrol";
 import format from "date-fns/format";
+import { compareAsc, parse } from "date-fns";
 
 const uTasks = tasksModule();
 const uProjects = projectModule();
 const allProjects = uProjects.listProjects();
 
-uTasks.addTasks("buy groceries", "6th-Jan-2023", "Low", "local market");
-uTasks.addTasks("buy soil", "6th-Jan-2023", "Medium", "Loam soil is preferred");
+uTasks.addTasks("buy groceries", "20th-Jan.-2023", "Low", "local market");
+uTasks.addTasks("buy soil", "20th-Jan.-2023", "Medium", "Loam soil is preferred");
 uTasks.addTasks(
   "pay Bills",
-  "7th-Jan-2023",
+  "20th-Jan.-2023",
   "High",
   "Electric Bill and Water Bill"
 );
 
-console.log(uTasks.listTasks())
 uProjects.createNewProject("To Do List", "Create a to do list");
 uProjects.createNewProject("Test Project", "Test this projects");
-allProjects[0].addTasks("test Task", "28th-Jan-2023", "Low", "just testing on adding task")
+allProjects[0].addTasks("test Task", "28th-Jan.-2023", "Low", "just testing on adding task")
 
 const getCurrentDate = function () {
-  const dateToday = format(new Date(), 'eo-MMM-yyyy');
+  const dateToday = format(new Date(), 'do-MMM.-yyyy');
   return dateToday;
 }
 
@@ -32,8 +32,8 @@ const getAllTasks = function () {
   uTasks.listTasks().forEach((task) => {
     tasks.push(task);
   })
-  console.log(uProjects);
-  console.log(uProjects.listProjects())
+  // console.log(uProjects);
+  // console.log(uProjects.listProjects())
   allProjects.forEach((project) => {
     project.listTasks().forEach((task) => {
       tasks.push(task);
@@ -43,23 +43,22 @@ const getAllTasks = function () {
 }
 
 const getTasksToday = function () {
-  const tasks = [];
-  uTasks.listTasks().forEach((task) => {
-    if (task.date === getCurrentDate()) tasks.push(task);
-  })
-  console.log(uProjects);
-  console.log(uProjects.listProjects())
-  allProjects.forEach((project) => {
-    project.listTasks().forEach((task) => {
-      if (task.date === getCurrentDate()) tasks.push(task);
-    })
-  })
+  const tasks = getAllTasks().filter((task) =>  task.date === getCurrentDate());
   return tasks;
 }
 
+const getUpcomingTasks = function () {
+  const tasks = getAllTasks().filter((task => {
+    const taskDate = parse(task.date, "do-MMM.-yyyy", new Date ())
+    const dateToday = parse(getCurrentDate(), "do-MMM.-yyyy", new Date ())
+    return compareAsc(taskDate, dateToday);
+  }))
+  return tasks
+}
+
+console.log(getAllTasks());
 console.log(getTasksToday());
-
-
+console.log(getUpcomingTasks())
 
 
 

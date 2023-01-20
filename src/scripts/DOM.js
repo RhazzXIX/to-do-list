@@ -31,14 +31,14 @@ const DOM = (function () {
   header.appendChild(notif);
 
   const time = document.createElement("time");
-  let currentDate = format(new Date(), "eo-MMM.-yy");
+  let currentDate = format(new Date(), "do-MMM.-yyyy");
   let currentTime = format(new Date(), "hh:mm:ss aa");
   time.textContent = `${currentTime}  ${currentDate}`;
   time.setAttribute("datetime", `${currentTime}  ${currentDate}`);
   header.appendChild(time);
 
   const timeUpdate = function () {
-    currentDate = format(new Date(), "eo-MMM.-yy");
+    currentDate = format(new Date(), "do-MMM.-yyyy");
     currentTime = format(new Date(), "hh:mm:ss aa");
     time.textContent = `${currentTime}   ${currentDate}`;
     time.setAttribute("datetime", `${currentTime}  ${currentDate}`);
