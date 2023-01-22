@@ -2,18 +2,18 @@ import EditProject from "../images/editBook.svg";
 import EditTask from "../images/edit.svg";
 import Trash from "../images/trash.svg";
 
-const DOMcontrol = (function() {
+const DOMcontrol = function () {
   const createTaskSection = function () {
     const section = document.createElement("section");
     const header = document.createElement("header");
     header.setAttribute("id", "taskHeader");
     section.appendChild(header);
-  
+
     const title = document.createElement("h1");
     title.classList.add("taskHeader");
     title.textContent = "Tasks";
     header.appendChild(title);
-  
+
     const addTasksBtn = document.createElement("button");
     addTasksBtn.setAttribute("id", "addTasks");
     addTasksBtn.classList.add("kit");
@@ -21,64 +21,64 @@ const DOMcontrol = (function() {
     header.appendChild(addTasksBtn);
     section.appendChild(header);
     return { section, title, header, addTasksBtn };
-  }
+  };
 
   const createProjectSummarySection = function () {
     const section = document.createElement("section");
     const title = document.createElement("h1");
-    title.textContent = 'Projects';
-    section.appendChild(title)
-    return {section};
-  }
-  
+    title.textContent = "Projects";
+    section.appendChild(title);
+    return { section };
+  };
+
   const removeSections = function (main) {
-    const sections = main.querySelectorAll('section')
-    sections.forEach(section => {
+    const sections = main.querySelectorAll("section");
+    sections.forEach((section) => {
       main.removeChild(section);
     });
-  }
+  };
 
   const createProjectForm = function () {
     const section = document.createElement("section");
     section.setAttribute("id", "form");
 
     const form = document.createElement("form");
-    form.classList.add('form');
-    
+    form.classList.add("form");
+
     const formTitle = document.createElement("h2");
-    
+
     const closeBtn = document.createElement("button");
     closeBtn.classList.add("kit");
     closeBtn.setAttribute("type", "button");
     closeBtn.setAttribute("id", "closeButton");
     closeBtn.textContent = "✕";
-  
+
     const formHeader = document.createElement("header");
-  
+
     formHeader.appendChild(formTitle);
     formHeader.appendChild(closeBtn);
-  
+
     const firstLabel = document.createElement("label");
     firstLabel.setAttribute("for", "firstInput");
-  
+
     const firstInput = document.createElement("input");
     firstInput.setAttribute("id", "firstInput");
     firstInput.setAttribute("required", "");
     firstInput.setAttribute("type", "text");
-  
+
     const scndLabel = document.createElement("label");
     scndLabel.setAttribute("for", "scndInput");
-  
+
     const scndInput = document.createElement("textarea");
     scndInput.setAttribute("id", "scndInput");
 
     const submitProjectBtn = document.createElement("button");
     submitProjectBtn.textContent = "Add Project";
     submitProjectBtn.classList.add("kit");
-  
+
     formTitle.textContent = "Add Project";
-    scndLabel.textContent = "Description:";
     firstLabel.textContent = "Project Name:";
+    scndLabel.textContent = "Description:";
     firstLabel.appendChild(firstInput);
     scndLabel.appendChild(scndInput);
     form.appendChild(formHeader);
@@ -87,57 +87,60 @@ const DOMcontrol = (function() {
     form.appendChild(submitProjectBtn);
     section.appendChild(form);
 
-    return  { section, closeBtn, firstInput, scndInput, submitProjectBtn }
-  }
+    return { section, closeBtn, firstInput, scndInput, submitProjectBtn };
+  };
 
   const createTaskForm = function () {
     const section = document.createElement("section");
-    
-    
+    section.setAttribute("id", "form");
+
+    const form = document.createElement("form");
+    form.classList.add("form");
+
     const formTitle = document.createElement("h2");
-    
+
     const closeBtn = document.createElement("button");
     closeBtn.classList.add("kit");
     closeBtn.setAttribute("type", "button");
     closeBtn.setAttribute("id", "closeButton");
     closeBtn.textContent = "✕";
-  
+
     const formHeader = document.createElement("header");
-  
+
     formHeader.appendChild(formTitle);
     formHeader.appendChild(closeBtn);
-  
+
     const firstLabel = document.createElement("label");
     firstLabel.setAttribute("for", "firstInput");
-  
+
     const firstInput = document.createElement("input");
     firstInput.setAttribute("id", "firstInput");
     firstInput.setAttribute("required", "");
     firstInput.setAttribute("type", "text");
-  
+
     const scndLabel = document.createElement("label");
     scndLabel.setAttribute("for", "scndInput");
-  
+
     const scndInput = document.createElement("textarea");
     scndInput.setAttribute("id", "scndInput");
-  
+
     const dateLabel = document.createElement("label");
     dateLabel.textContent = "Set due date:";
     dateLabel.setAttribute("for", "date");
-  
+
     const dateInput = document.createElement("input");
     dateInput.setAttribute("type", "date");
     dateInput.setAttribute("id", "date");
-  
+
     dateLabel.appendChild(dateInput);
-  
+
     const priorityLabel = document.createElement("label");
     priorityLabel.textContent = "Set priority:";
     priorityLabel.setAttribute("for", "priority");
-  
+
     const priorityInput = document.createElement("select");
     priorityInput.setAttribute("id", "priority");
-  
+
     for (let i = 0; i <= 2; i += 1) {
       const option = document.createElement("option");
       switch (i) {
@@ -153,35 +156,47 @@ const DOMcontrol = (function() {
       }
       priorityInput.appendChild(option);
     }
-  
+
     priorityLabel.appendChild(priorityInput);
-  
-    const submitProjectBtn = document.createElement("button");
-    submitProjectBtn.textContent = "Add Project";
-    submitProjectBtn.classList.add("kit");
-  
+
     const submitTaskBtn = document.createElement("button");
     submitTaskBtn.textContent = "Add Task";
     submitTaskBtn.classList.add("kit");
 
-    return section;
-  }
+    formTitle.textContent = "Add Tasks:";
+    firstLabel.textContent = "Task:";
+    firstLabel.appendChild(firstInput);
+    dateLabel.textContent = "Due date:";
+    dateLabel.appendChild(dateInput);
+    priorityLabel.textContent = "Priority:";
+    priorityLabel.appendChild(priorityInput);
+    scndLabel.textContent = "Notes";
+    scndLabel.appendChild(scndInput);
+    form.appendChild(formHeader);
+    form.appendChild(firstLabel);
+    form.appendChild(dateLabel);
+    form.appendChild(priorityLabel);
+    form.appendChild(scndLabel);
+    form.appendChild(submitTaskBtn);
+    section.appendChild(form);
+    return {
+      section,
+      closeBtn,
+      firstInput,
+      dateInput,
+      priorityInput,
+      scndInput,
+      submitTaskBtn,
+    };
+  };
 
-  const removeForm = function(base) {
-    if (!base.querySelector('section#form')) return
-    const form = base.querySelector('section#form');
+  const removeForm = function (base) {
+    if (!base.querySelector("section#form")) return;
+    const form = base.querySelector("section#form");
     base.removeChild(form);
-  }
+  };
 
-  function addCards(section, tasks) {
-    tasks.forEach((task) => {
-      console.log(task.completed)
-      const card = createCards(task);
-      section.appendChild(card);
-    });
-  }
-
-  function createCards(item) {
+  const createCards = function (item) {
     const card = document.createElement("div");
     card.classList.add("card");
     card.dataset.ref = item.taskReference;
@@ -230,39 +245,198 @@ const DOMcontrol = (function() {
     delBtn.dataset.ref = item.taskReference;
     card.appendChild(delBtn);
 
-    // bindBtnEvents(checkbox);
-    // bindBtnEvents(noteBtn);
+    if (item.completed) {
+      checkbox.checked = true;
+      task.classList.add("crossout");
+      date.classList.add("crossout");
+      card.classList.add("crossout");
+    } else {
+      task.classList.remove("crossout");
+      date.classList.remove("crossout");
+      card.classList.remove("crossout");
+    }
 
     return card;
-  }
+  };
+
+  const addCards = function (section, tasks) {
+    tasks.forEach((task) => {
+      const card = createCards(task);
+      section.appendChild(card);
+    });
+  };
+
+  const createProjectSummaryCards = function (project) {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.classList.add("project");
+    card.dataset.ref = project.getProjectReference();
+
+    const title = document.createElement("h3");
+    title.textContent = project.getProjectName();
+    card.appendChild(title);
+
+    const description = document.createElement("p");
+    description.textContent = project.getProjectDescription();
+    card.appendChild(description);
+    return card;
+  };
 
   const addProjectSummaryCards = function (section, projects) {
     projects.forEach((project) => {
       const card = createProjectSummaryCards(project);
       section.appendChild(card);
-    })
+    });
+  };
 
-  }
+  const updateTasksList = function (taskSection, tasks) {
+    const cards = taskSection.querySelectorAll("div.card");
+    cards.forEach((card) => taskSection.removeChild(card));
+    addCards(taskSection, tasks);
+  };
 
-  const createProjectSummaryCards = function (project) {
-    console.log(project);
-    const card = document.createElement("div");
-    card.classList.add("card");
-    card.dataset.ref = project.getProjectReference();
+  const updateProjectList = function (projectList, projects) {
+    const list = projectList.querySelectorAll("li");
 
-    const title = document.createElement('h3');
-    title.textContent = project.getProjectName();
-    card.appendChild(title);
+    list.forEach((project) => {
+      projectList.removeChild(project);
+    });
 
-    const description = document.createElement('p');
-    description.textContent = project.getProjectDescription();
-    card.appendChild(description);
-    return card;
-  }
+    projects.forEach((project) => {
+      const li = document.createElement("li");
+      li.dataset.ref = project.getProjectReference();
 
+      const projectName = document.createElement("button");
+      projectName.classList.add("list");
+      projectName.textContent = project.getProjectName();
 
-  return { createTaskSection, removeSections, createProjectSummarySection, createProjectForm, createTaskForm, removeForm, addCards, addProjectSummaryCards }
+      const editProjectBtn = document.createElement("button");
+      editProjectBtn.dataset.ref = project.getProjectReference();
+      const editProjectImg = new Image(22, 22);
+      editProjectImg.src = EditProject;
+      editProjectImg.setAttribute("alt", "Edit Project Icon");
+      editProjectBtn.classList.add("list");
+      editProjectBtn.appendChild(editProjectImg);
 
-}) ;
+      const delBtn = document.createElement("button");
+      delBtn.dataset.ref = project.getProjectReference();
+      const delImg = new Image(22, 22);
+      delImg.src = Trash;
+      delImg.setAttribute("alt", "Trash Icon");
+      delBtn.classList.add("list");
+      delBtn.appendChild(delImg);
 
-export default DOMcontrol
+      li.appendChild(projectName);
+      li.appendChild(editProjectBtn);
+      li.appendChild(delBtn);
+      projectList.appendChild(li);
+    });
+  };
+
+  const findTaskTroughReference = function (reference, tasks, projects) {
+    let task;
+    if (tasks.listTasks().length) {
+      tasks.listTasks().forEach((item) => {
+        if (item.taskReference === reference) task = item;
+      });
+    }
+    if (projects.length) {
+      projects.forEach((project) => {
+        project.listTasks().forEach((item) => {
+          if (item.taskReference === reference) task = item;
+        });
+      });
+    }
+    return task;
+  };
+
+  const crossOut = function (tasks, projects) {
+    const allTasks = [];
+    let card;
+    const divs = this.querySelectorAll("div.card");
+    divs.forEach((div) => {
+      if (div.dataset.ref === event.target.dataset.ref) card = div;
+    });
+    const taskText = card.querySelector("p.task");
+    const taskDate = card.querySelector("time.task");
+    tasks.listTasks().forEach((task) => {
+      allTasks.push(task);
+    });
+    projects.forEach((project) => {
+      project.listTasks().forEach((task) => {
+        allTasks.push(task);
+      });
+    });
+    const reference = event.target.dataset.ref;
+    const task = findTaskTroughReference(reference, tasks, projects);
+    task.toggleStatus();
+    if (task.completed) {
+      card.classList.add("crossout");
+      taskText.classList.add("crossout");
+      taskDate.classList.add("crossout");
+    } else {
+      card.classList.remove("crossout");
+      taskText.classList.remove("crossout");
+      taskDate.classList.remove("crossout");
+    }
+  };
+
+  const addNotes = function (tasks, projects) {
+    event.stopPropagation();
+    let card;
+    const divs = this.querySelectorAll("div.card");
+    divs.forEach((div) => {
+      if (div.dataset.ref === event.target.dataset.ref) card = div;
+    });
+    const reference = card.dataset.ref;
+    const task = findTaskTroughReference(reference, tasks, projects);
+    const notes = document.createElement("p");
+    const notesContainer = document.createElement("div");
+    notesContainer.appendChild(notes);
+    notesContainer.classList.add("notes");
+    notes.textContent = task.note;
+    if (!card.querySelector("div.notes")) {
+      card.appendChild(notesContainer);
+    } else {
+      const notesRemove = card.querySelector("div.notes");
+      card.removeChild(notesRemove);
+    }
+  };
+
+  const applyNotesEvent = function (section, tasks, projects) {
+    const noteBtns = section.querySelectorAll("button[data-btn=notes]");
+    noteBtns.forEach((button) => {
+      button.addEventListener("click", addNotes.bind(section, tasks, projects));
+    });
+  };
+
+  const applyCompletedEvent = function (section, tasks, projects) {
+    const checkboxes = section.querySelectorAll("input[type=checkbox]");
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener(
+        "click",
+        crossOut.bind(section, tasks, projects)
+      );
+    });
+  };
+
+  const applyUtilityBtnEvents = function (section, tasks, projects) {
+    applyNotesEvent(section, tasks, projects);
+    applyCompletedEvent(section, tasks, projects);
+  };
+
+  return {
+    createTaskSection,
+    removeSections,
+    createProjectSummarySection,
+    createProjectForm,
+    createTaskForm,
+    removeForm,
+    addProjectSummaryCards,
+    updateProjectList,
+    updateTasksList,
+    applyUtilityBtnEvents,
+  };
+};
+
+export default DOMcontrol;

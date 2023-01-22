@@ -102,6 +102,18 @@ li button.list {
   border: 0;
 }
 
+aside ul:nth-of-type(2)
+li button.list {
+  font-size: 1.1rem;
+}
+
+aside 
+ul:nth-of-type(2)
+li 
+button.list:first-of-type {
+  justify-content: flex-start;
+}
+
 aside ul 
 li button.list:hover,
 div button.cardBtn:hover {
@@ -141,6 +153,7 @@ li {
   grid-template-columns: 1fr repeat(2, auto);
   gap: 5px;
 }
+
 
 aside a {
   grid-row: 3 / 4;
@@ -227,6 +240,10 @@ div.card.Low {
   align-items: center;
   grid-template-columns: 30px 1fr 100px repeat(3, 30px);
   grid-template-rows: repeat(2, auto);
+}
+
+div.card.project {
+  height: 160px;
 }
 
 div.card.crossout {

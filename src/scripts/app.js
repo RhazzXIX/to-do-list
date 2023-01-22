@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+
 const tasksModule = (function () {
   const CreateTaskList = function () {
     const tasks = [];
@@ -13,9 +14,15 @@ const tasksModule = (function () {
       return { completed, toggleStatus };
     };
 
-    const NewTask = function (task, date, level, note) {
+    const NewTask = function (task, initialDate, level, note) {
       const duty = Object.create(Task());
       let priority = level;
+      const today = format(new Date(), "do-MMM.-yyyy");
+      console.log(today);
+      let date = initialDate;
+      if (!initialDate) { 
+        date = today;
+      } else { date = format(new Date(initialDate), 'do-MMM.-yyyy')}
       const taskReference = createReference(task, note)
       if (priority === undefined) priority = 4;
       return Object.assign(duty, { task, date, priority, taskReference, note });
