@@ -14,11 +14,26 @@ const tasksModule = (function () {
       return { completed, toggleStatus };
     };
 
+    const createReference = function (task, note) {
+      const ref1 = task.split(' ').reduce((word, word2, i, arr) => {
+        if (i === 2) arr.splice(1);
+        word += word2.slice(0,1);
+        return word
+      },'')
+      const ref2 = note.split(' ').reduce((word, word2, i, arr) => {
+        if (i === 2) arr.splice(1);
+        word += word2.slice(0,1);
+        return word;
+      }, '')
+      const date = format(new Date(), 'hmmss');
+      const reference = ref1 + ref2 + date;
+      return reference;
+    }    
+
     const NewTask = function (task, initialDate, level, note) {
       const duty = Object.create(Task());
       let priority = level;
       const today = format(new Date(), "do-MMM.-yyyy");
-      console.log(today);
       let date = initialDate;
       if (!initialDate) { 
         date = today;
@@ -46,23 +61,6 @@ const tasksModule = (function () {
     const editTasks = function (duty) {
       const taskEdit = tasks.filter((item) => item.duty === duty);
     };
-
-    function createReference (task, note) {
-      const ref1 = task.split(' ').reduce((word, word2, i, arr) => {
-        if (i === 2) arr.splice(1);
-        word += word2.slice(0,1);
-        return word
-      },'')
-      const ref2 = note.split(' ').reduce((word, word2, i, arr) => {
-        if (i === 2) arr.splice(1);
-        word += word2.slice(0,1);
-        return word;
-      }, '')
-      const date = format(new Date(), 'hmmss');
-      const reference = ref1 + ref2 + date;
-      return reference;
-    }
-
 
     return Object.assign({}, { addTasks, deleteTasks, listTasks });
   };

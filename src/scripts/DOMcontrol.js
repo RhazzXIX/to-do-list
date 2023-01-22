@@ -90,7 +90,7 @@ const DOMcontrol = function () {
     return { section, closeBtn, firstInput, scndInput, submitProjectBtn };
   };
 
-  const createTaskForm = function () {
+  const createTaskForm = function (projects) {
     const section = document.createElement("section");
     section.setAttribute("id", "form");
 
@@ -159,6 +159,25 @@ const DOMcontrol = function () {
 
     priorityLabel.appendChild(priorityInput);
 
+    const repositoryLabel = document.createElement('label');
+
+    const repository = document.createElement('select');
+    
+    const optionCount = 0 + projects.length;
+    console.log(projects.length);
+    for (let i = 0; i <= optionCount; i += 1) {
+      const option = document.createElement("option");
+      console.log(i);
+      switch (true) {
+        case i === optionCount:
+          option.textContent = "Usual Task";
+          option.setAttribute("selected", "");
+          break;
+        default:
+          option.textContent = projects[i].getProjectName();
+      }
+      repository.appendChild(option);
+    }
     const submitTaskBtn = document.createElement("button");
     submitTaskBtn.textContent = "Add Task";
     submitTaskBtn.classList.add("kit");
@@ -172,11 +191,14 @@ const DOMcontrol = function () {
     priorityLabel.appendChild(priorityInput);
     scndLabel.textContent = "Notes";
     scndLabel.appendChild(scndInput);
+    repositoryLabel.textContent = "List in:"
+    repositoryLabel.appendChild(repository);
     form.appendChild(formHeader);
     form.appendChild(firstLabel);
     form.appendChild(dateLabel);
     form.appendChild(priorityLabel);
     form.appendChild(scndLabel);
+    form.appendChild(repositoryLabel);
     form.appendChild(submitTaskBtn);
     section.appendChild(form);
     return {
@@ -186,6 +208,7 @@ const DOMcontrol = function () {
       dateInput,
       priorityInput,
       scndInput,
+      repository,
       submitTaskBtn,
     };
   };
@@ -333,7 +356,7 @@ const DOMcontrol = function () {
     });
   };
 
-  const findTaskTroughReference = function (reference, tasks, projects) {
+  const findTaskThroughReference = function (reference, tasks, projects) {
     let task;
     if (tasks.listTasks().length) {
       tasks.listTasks().forEach((item) => {
@@ -353,9 +376,10 @@ const DOMcontrol = function () {
   const crossOut = function (tasks, projects) {
     const allTasks = [];
     let card;
+    const reference = event.target.dataset.ref;
     const divs = this.querySelectorAll("div.card");
     divs.forEach((div) => {
-      if (div.dataset.ref === event.target.dataset.ref) card = div;
+      if (div.dataset.ref === reference) card = div;
     });
     const taskText = card.querySelector("p.task");
     const taskDate = card.querySelector("time.task");
@@ -367,8 +391,7 @@ const DOMcontrol = function () {
         allTasks.push(task);
       });
     });
-    const reference = event.target.dataset.ref;
-    const task = findTaskTroughReference(reference, tasks, projects);
+    const task = findTaskThroughReference(reference, tasks, projects);
     task.toggleStatus();
     if (task.completed) {
       card.classList.add("crossout");
@@ -384,12 +407,12 @@ const DOMcontrol = function () {
   const addNotes = function (tasks, projects) {
     event.stopPropagation();
     let card;
+    const reference = event.target.dataset.ref;
     const divs = this.querySelectorAll("div.card");
     divs.forEach((div) => {
-      if (div.dataset.ref === event.target.dataset.ref) card = div;
+      if (div.dataset.ref === reference) card = div;
     });
-    const reference = card.dataset.ref;
-    const task = findTaskTroughReference(reference, tasks, projects);
+    const task = findTaskThroughReference(reference, tasks, projects);
     const notes = document.createElement("p");
     const notesContainer = document.createElement("div");
     notesContainer.appendChild(notes);

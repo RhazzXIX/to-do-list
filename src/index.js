@@ -8,6 +8,7 @@ import { compareAsc, parse } from "date-fns";
 const uTasks = tasksModule();
 const uProjects = projectModule();
 const allProjects = uProjects.listProjects();
+console.log(allProjects);
 
 const getCurrentDate = function () {
   const dateToday = format(new Date(), "do-MMM.-yyyy");
@@ -116,7 +117,6 @@ const checkForm = function (event) {
     case this === form.submitProjectBtn:
       uProjects.createNewProject(form.firstInput.value, form.scndInput.value);
       controlDOM.updateProjectList(mainDOM.projectList, allProjects);
-
       break;
     default:
       let date;
@@ -125,13 +125,28 @@ const checkForm = function (event) {
       } else {
         date = format(new Date(form.dateInput.value), "do-MMM.-yyyy");
       }
-
-      uTasks.addTasks(
-        form.firstInput.value,
-        form.dateInput.value,
-        form.priorityInput.value,
-        form.scndInput.value
-      );
+      console.log(form.repository.value);
+      switch(form.repository.value) {
+        case "Usual Task":
+          uTasks.addTasks(
+            form.firstInput.value,
+            form.dateInput.value,
+            form.priorityInput.value,
+            form.scndInput.value
+          );
+          break;
+        default:
+          allProjects.forEach((project) => {
+            if (form.repository.value === project.getProjectName()) {
+              project.addTasks(
+                form.firstInput.value,
+                form.dateInput.value,
+                form.priorityInput.value,
+                form.scndInput.value
+              );
+            }
+          })
+      }
       controlDOM.updateTasksList(taskSection.section, getAllTasks());
       controlDOM.applyUtilityBtnEvents(
         taskSection.section,
@@ -184,7 +199,7 @@ const displayContent = function (e) {
       controlDOM.updateTasksList(taskSection.section, getUpcomingTasks());
       controlDOM.applyUtilityBtnEvents(
         taskSection.section,
-        getUpcomingTasks(),
+        uTasks,
         allProjects
       );
       break;
@@ -204,8 +219,7 @@ const displayContent = function (e) {
       break;
     case taskSection.addTasksBtn:
       controlDOM.removeForm(mainDOM.main);
-      form = controlDOM.createTaskForm();
-
+      form = controlDOM.createTaskForm(allProjects);
       bindEvents(form.closeBtn);
       bindEvents(form.submitTaskBtn);
       bindEvents(form.section);
