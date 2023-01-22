@@ -8,7 +8,9 @@ import { compareAsc, parse } from "date-fns";
 const uTasks = tasksModule();
 const uProjects = projectModule();
 const allProjects = uProjects.listProjects();
-console.log(allProjects);
+
+let appropriateTask;
+const projectBtns = []
 
 const getCurrentDate = function () {
   const dateToday = format(new Date(), "do-MMM.-yyyy");
@@ -28,6 +30,17 @@ const getAllTasks = function () {
   });
   return tasks;
 };
+
+const getProjectTask = function (button) {
+  const reference = button.textContent;
+  let tasks
+  allProjects.forEach((project => {
+    if (project.getProjectName() === reference){
+      tasks = project.listTasks()
+    }
+  }))
+  return tasks;
+}
 
 const getTasksToday = function () {
   const tasks = getAllTasks().filter((task) => task.date === getCurrentDate());
@@ -51,6 +64,17 @@ const getOverdueTasks = function () {
   });
   return tasks;
 };
+
+// const activateBtns = function (project, list) {
+//   const reference = project.getProjectReference();
+//   const item = document.querySelector(`li[data-ref=${reference}`)
+//   let projectButton
+//   const buttons = item.querySelectorAll('button');
+//   buttons.forEach((button => {
+//     if (button.textContent === project.getProjectName()) ProjectButton = button;
+//   }))
+//   ProjectButton.addEventListener('click')
+// }
 
 const sortToHigh = function (array) {
   const highToLow = array.sort((task1, task2) => {
@@ -116,7 +140,8 @@ const checkForm = function (event) {
   switch (true) {
     case this === form.submitProjectBtn:
       uProjects.createNewProject(form.firstInput.value, form.scndInput.value);
-      controlDOM.updateProjectList(mainDOM.projectList, allProjects);
+      controlDOM.updateProjectList(mainDOM.projectList, allProjects, projectBtns);
+      activateProjectBtns(projectBtns);
       break;
     default:
       let date;
@@ -125,7 +150,7 @@ const checkForm = function (event) {
       } else {
         date = format(new Date(form.dateInput.value), "do-MMM.-yyyy");
       }
-      console.log(form.repository.value);
+      
       switch(form.repository.value) {
         case "Usual Task":
           uTasks.addTasks(
@@ -147,7 +172,8 @@ const checkForm = function (event) {
             }
           })
       }
-      controlDOM.updateTasksList(taskSection.section, getAllTasks());
+      appropriateTask = getAllTasks();
+      controlDOM.updateTaskList(taskSection.section, appropriateTask);
       controlDOM.applyUtilityBtnEvents(
         taskSection.section,
         uTasks,
@@ -158,17 +184,18 @@ const checkForm = function (event) {
 };
 
 const bindEvents = function (element) {
-  switch (element) {
-    case form.submitTaskBtn:
+  
+  switch (true) {
+    case (element === form.submitTaskBtn):
       form.submitTaskBtn.addEventListener("click", checkForm);
       break;
-    case form.closeBtn:
+    case (element === form.closeBtn):
       form.closeBtn.addEventListener("click", removeForm);
       break;
-    case form.section:
+    case (element === form.section):
       form.section.addEventListener("mousedown", removeForm);
       break;
-    case form.submitProjectBtn:
+    case (element ===form.submitProjectBtn):
       form.submitProjectBtn.addEventListener("click", checkForm);
       break;
     default:
@@ -178,32 +205,35 @@ const bindEvents = function (element) {
 
 const displayContent = function (e) {
   e.stopPropagation();
-  switch (this) {
-    case mainDOM.btnToday:
+  
+  switch (true) {
+    case (this === mainDOM.btnToday):
       controlDOM.removeSections(mainDOM.main);
       taskSection = controlDOM.createTaskSection();
       taskSection.title.textContent = "Todays tasks:";
       mainDOM.main.appendChild(taskSection.section);
-      controlDOM.updateTasksList(taskSection.section, getTasksToday());
+      appropriateTask = getTasksToday();
+      controlDOM.updateTaskList(taskSection.section, appropriateTask);
       controlDOM.applyUtilityBtnEvents(
         taskSection.section,
         uTasks,
         allProjects
       );
       break;
-    case mainDOM.btnComing:
+    case (this === mainDOM.btnComing):
       controlDOM.removeSections(mainDOM.main);
       taskSection = controlDOM.createTaskSection();
       taskSection.title.textContent = "Upcoming tasks:";
       mainDOM.main.appendChild(taskSection.section);
-      controlDOM.updateTasksList(taskSection.section, getUpcomingTasks());
+      appropriateTask = getUpcomingTasks();
+      controlDOM.updateTaskList(taskSection.section, appropriateTask);
       controlDOM.applyUtilityBtnEvents(
         taskSection.section,
         uTasks,
         allProjects
       );
       break;
-    case mainDOM.addProject:
+    case (this === mainDOM.addProject):
       controlDOM.removeForm(mainDOM.main);
       form = controlDOM.createProjectForm();
       bindEvents(form.closeBtn);
@@ -211,13 +241,13 @@ const displayContent = function (e) {
       bindEvents(form.section);
       mainDOM.base.appendChild(form.section);
       break;
-    case mainDOM.btnProject:
+    case (this === mainDOM.btnProject):
       controlDOM.removeSections(mainDOM.main);
       projectSection = controlDOM.createProjectSummarySection();
       mainDOM.main.appendChild(projectSection.section);
       controlDOM.addProjectSummaryCards(projectSection.section, allProjects);
       break;
-    case taskSection.addTasksBtn:
+    case (this === taskSection.addTasksBtn):
       controlDOM.removeForm(mainDOM.main);
       form = controlDOM.createTaskForm(allProjects);
       bindEvents(form.closeBtn);
@@ -225,22 +255,44 @@ const displayContent = function (e) {
       bindEvents(form.section);
       mainDOM.base.appendChild(form.section);
       break;
-    default:
+    case (this === mainDOM.btnBoard):
       controlDOM.removeSections(mainDOM.main);
       taskSection = controlDOM.createTaskSection();
       projectSection = controlDOM.createProjectSummarySection();
       bindEvents(taskSection.addTasksBtn);
       mainDOM.main.appendChild(taskSection.section);
       mainDOM.main.appendChild(projectSection.section);
-      controlDOM.updateTasksList(taskSection.section, getAllTasks());
+      appropriateTask = getAllTasks();
+      controlDOM.updateTaskList(taskSection.section, appropriateTask);
       controlDOM.applyUtilityBtnEvents(
         taskSection.section,
         uTasks,
         allProjects
       );
       controlDOM.addProjectSummaryCards(projectSection.section, allProjects);
+      break;
+    default:
+      controlDOM.removeSections(mainDOM.main);
+      taskSection = controlDOM.createTaskSection();
+      bindEvents(taskSection.addTasksBtn);
+      mainDOM.main.appendChild(taskSection.section);
+      appropriateTask = getProjectTask(this);
+      controlDOM.updateTaskList(taskSection.section, appropriateTask);
+      controlDOM.applyUtilityBtnEvents(
+        taskSection.section,
+        uTasks,
+        allProjects
+      );
   }
 };
+
+const activateProjectBtns = function (list) {
+  list.forEach((item) => {
+    const projectButton = item.querySelector('button[data-btn=project]');
+
+    bindEvents(projectButton);
+  })
+}
 
 const bindInitialBtn = function (e) {
   e.stopPropagation();
@@ -280,7 +332,7 @@ form = controlDOM.createProjectForm();
 bindEvents(taskSection.addTasksBtn);
 mainDOM.main.appendChild(taskSection.section);
 mainDOM.main.appendChild(projectSection.section);
-controlDOM.updateTasksList(taskSection.section, getAllTasks());
+controlDOM.updateTaskList(taskSection.section, getAllTasks());
 controlDOM.applyUtilityBtnEvents(taskSection.section, uTasks, allProjects);
 controlDOM.addProjectSummaryCards(
   projectSection.section,
@@ -288,5 +340,6 @@ controlDOM.addProjectSummaryCards(
 );
 
 
-controlDOM.updateProjectList(mainDOM.projectList, allProjects);
+controlDOM.updateProjectList(mainDOM.projectList, allProjects, projectBtns);
+activateProjectBtns(projectBtns);
 window.addEventListener("load", bindInitialBtn);

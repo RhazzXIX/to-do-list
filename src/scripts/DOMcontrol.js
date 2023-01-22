@@ -164,10 +164,8 @@ const DOMcontrol = function () {
     const repository = document.createElement('select');
     
     const optionCount = 0 + projects.length;
-    console.log(projects.length);
     for (let i = 0; i <= optionCount; i += 1) {
       const option = document.createElement("option");
-      console.log(i);
       switch (true) {
         case i === optionCount:
           option.textContent = "Usual Task";
@@ -312,26 +310,29 @@ const DOMcontrol = function () {
     });
   };
 
-  const updateTasksList = function (taskSection, tasks) {
+  const updateTaskList = function (taskSection, tasks) {
     const cards = taskSection.querySelectorAll("div.card");
     cards.forEach((card) => taskSection.removeChild(card));
     addCards(taskSection, tasks);
   };
 
-  const updateProjectList = function (projectList, projects) {
+  const updateProjectList = function (projectList, projects, buttonArray) {
     const list = projectList.querySelectorAll("li");
-
+    buttonArray.splice(0, buttonArray.length);
+    
     list.forEach((project) => {
       projectList.removeChild(project);
     });
 
     projects.forEach((project) => {
+      let taskSecion = createTaskSection();
       const li = document.createElement("li");
       li.dataset.ref = project.getProjectReference();
 
       const projectName = document.createElement("button");
       projectName.classList.add("list");
       projectName.textContent = project.getProjectName();
+      projectName.dataset.btn = 'project'
 
       const editProjectBtn = document.createElement("button");
       editProjectBtn.dataset.ref = project.getProjectReference();
@@ -352,6 +353,7 @@ const DOMcontrol = function () {
       li.appendChild(projectName);
       li.appendChild(editProjectBtn);
       li.appendChild(delBtn);
+      buttonArray.push(li);
       projectList.appendChild(li);
     });
   };
@@ -448,6 +450,7 @@ const DOMcontrol = function () {
     applyCompletedEvent(section, tasks, projects);
   };
 
+  
   return {
     createTaskSection,
     removeSections,
@@ -457,8 +460,8 @@ const DOMcontrol = function () {
     removeForm,
     addProjectSummaryCards,
     updateProjectList,
-    updateTasksList,
-    applyUtilityBtnEvents,
+    updateTaskList,
+    applyUtilityBtnEvents
   };
 };
 
