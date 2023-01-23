@@ -3,7 +3,6 @@ import EditTask from "../images/edit.svg";
 import Trash from "../images/trash.svg";
 
 const DOMcontrol = function () {
-  
   const createTaskSection = function () {
     const section = document.createElement("section");
 
@@ -18,7 +17,7 @@ const DOMcontrol = function () {
 
   const createProjectSummarySection = function () {
     const section = document.createElement("section");
-    section.setAttribute('id', 'project');
+    section.setAttribute("id", "project");
     const title = document.createElement("h1");
     title.textContent = "Projects";
     section.appendChild(title);
@@ -153,10 +152,10 @@ const DOMcontrol = function () {
 
     priorityLabel.appendChild(priorityInput);
 
-    const repositoryLabel = document.createElement('label');
+    const repositoryLabel = document.createElement("label");
 
-    const repository = document.createElement('select');
-    
+    const repository = document.createElement("select");
+
     const optionCount = 0 + projects.length;
     for (let i = 0; i <= optionCount; i += 1) {
       const option = document.createElement("option");
@@ -183,7 +182,7 @@ const DOMcontrol = function () {
     priorityLabel.appendChild(priorityInput);
     scndLabel.textContent = "Notes";
     scndLabel.appendChild(scndInput);
-    repositoryLabel.textContent = "List in:"
+    repositoryLabel.textContent = "List in:";
     repositoryLabel.appendChild(repository);
     form.appendChild(formHeader);
     form.appendChild(firstLabel);
@@ -314,7 +313,7 @@ const DOMcontrol = function () {
   const updateProjectList = function (projectList, projects, buttonArray) {
     const list = projectList.querySelectorAll("li");
     buttonArray.splice(0, buttonArray.length);
-    
+
     list.forEach((project) => {
       projectList.removeChild(project);
     });
@@ -327,7 +326,7 @@ const DOMcontrol = function () {
       const projectName = document.createElement("button");
       projectName.classList.add("list");
       projectName.textContent = project.getProjectName();
-      projectName.dataset.btn = 'project'
+      projectName.dataset.btn = "project";
 
       const editProjectBtn = document.createElement("button");
       editProjectBtn.dataset.ref = project.getProjectReference();
@@ -441,27 +440,22 @@ const DOMcontrol = function () {
     });
   };
 
-  function deleteTasks (reference, tasks, projects) {
-    console.log(reference)
-    console.log(tasks.listTasks())    
+  function deleteTasks(reference, tasks, projects) {
     if (tasks.listTasks().length) tasks.deleteTasks(reference);
-    console.log(tasks.listTasks())
+
     if (projects.length) {
       projects.forEach((project) => {
-        console.log(project.listTasks())
         project.deleteTasks(reference);
-        console.log(project.listTasks())
-      })
+      });
     }
   }
 
-  function deleteCard (tasks, projects) {
+  function deleteCard(tasks, projects) {
     event.stopPropagation();
     let card;
-    console.log(event.target);
-    console.log(tasks);
+    console.log(this);
     const reference = event.target.dataset.ref;
-    deleteTasks(reference, tasks, projects)
+    deleteTasks(reference, tasks, projects);
     const divs = this.querySelectorAll("div.card");
     divs.forEach((div) => {
       if (div.dataset.ref === reference) card = div;
@@ -469,7 +463,7 @@ const DOMcontrol = function () {
     this.removeChild(card);
   }
 
-  function applyDeleteEvent (section, tasks, projects) {
+  function applyDeleteEvent(section, tasks, projects) {
     const deleteBtns = section.querySelectorAll("img[data-btn = del]");
     deleteBtns.forEach((button) => {
       button.addEventListener(
@@ -485,7 +479,6 @@ const DOMcontrol = function () {
     applyDeleteEvent(section, tasks, projects);
   };
 
-  
   return {
     createTaskSection,
     removeSections,
@@ -496,7 +489,7 @@ const DOMcontrol = function () {
     addProjectSummaryCards,
     updateProjectList,
     updateTaskList,
-    applyUtilityBtnEvents
+    applyUtilityBtnEvents,
   };
 };
 

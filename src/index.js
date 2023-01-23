@@ -237,6 +237,19 @@ const displayContent = function (e) {
       bindEvents(form.submitProjectBtn);
       bindEvents(form.section);
       mainDOM.base.appendChild(form.section);
+      controlDOM.removeSections(mainDOM.main);
+      taskSection = controlDOM.createTaskSection();
+      projectSection = controlDOM.createProjectSummarySection();
+      mainDOM.main.appendChild(taskSection.section);
+      mainDOM.main.appendChild(projectSection.section);
+      appropriateTask = getAllTasks();
+      controlDOM.updateTaskList(taskSection.section, appropriateTask);
+      controlDOM.applyUtilityBtnEvents(
+        taskSection.section,
+        uTasks,
+        allProjects
+      );
+      controlDOM.addProjectSummaryCards(projectSection.section, allProjects);
       break;
     case (this === mainDOM.btnProject):
       controlDOM.removeSections(mainDOM.main);
@@ -252,8 +265,6 @@ const displayContent = function (e) {
       bindEvents(form.submitTaskBtn);
       bindEvents(form.section);
       mainDOM.base.appendChild(form.section);
-      break;
-    case (this === mainDOM.btnBoard):
       controlDOM.removeSections(mainDOM.main);
       taskSection = controlDOM.createTaskSection();
       projectSection = controlDOM.createProjectSummarySection();
@@ -268,25 +279,7 @@ const displayContent = function (e) {
       );
       controlDOM.addProjectSummaryCards(projectSection.section, allProjects);
       break;
-    case (this === form.submitProjectBtn):
-      controlDOM.removeSections(mainDOM.main);
-      projectSection = controlDOM.createProjectSummarySection();
-      projectSection.section.classList.add('wide')
-      mainDOM.main.appendChild(projectSection.section);
-      controlDOM.addProjectSummaryCards(projectSection.section, allProjects);
-      break;
-    case (this === form.submitTaskBtn):
-      controlDOM.removeSections(mainDOM.main);
-      taskSection = controlDOM.createTaskSection();
-      mainDOM.main.appendChild(taskSection.section);
-      appropriateTask = getAllTasks();
-      controlDOM.updateTaskList(taskSection.section, appropriateTask);controlDOM.applyUtilityBtnEvents(
-        taskSection.section,
-        uTasks,
-        allProjects
-      );
-      break;
-    default:
+    case (this.dataset.btn === "project"):
       controlDOM.removeSections(mainDOM.main);
       taskSection = controlDOM.createTaskSection();      
       mainDOM.main.appendChild(taskSection.section);
@@ -298,6 +291,21 @@ const displayContent = function (e) {
         uTasks,
         allProjects
       );
+      break;
+    default:
+      controlDOM.removeSections(mainDOM.main);
+      taskSection = controlDOM.createTaskSection();
+      projectSection = controlDOM.createProjectSummarySection();
+      mainDOM.main.appendChild(taskSection.section);
+      mainDOM.main.appendChild(projectSection.section);
+      appropriateTask = getAllTasks();
+      controlDOM.updateTaskList(taskSection.section, appropriateTask);
+      controlDOM.applyUtilityBtnEvents(
+        taskSection.section,
+        uTasks,
+        allProjects
+      );
+      controlDOM.addProjectSummaryCards(projectSection.section, allProjects);
   }
 };
 

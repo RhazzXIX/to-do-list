@@ -205,7 +205,7 @@ section#project.wide {
   display: grid;
   justify-content: space-evenly;
   column-gap: 26px;
-  grid-template-rows: 35px repeat(auto-fit, 200px);
+  grid-template-rows: 35px repeat(auto-fit, 160px);
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
@@ -247,12 +247,13 @@ div.card.Low {
   width: 574px;
   display: grid;
   align-items: center;
-  grid-template-columns: 30px 1fr 100px repeat(3, 30px);
+  grid-template-columns: 30px 1fr 100px repeat(3, auto);
+  gap: 8px;
   grid-template-rows: repeat(2, auto);
 }
 
 div.card.project {
-  height: 160px;
+  height: 120px;
 }
 
 div.card.crossout {
