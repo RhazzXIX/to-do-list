@@ -177,6 +177,14 @@ const checkForm = function (event) {
   removeForm(event);
 };
 
+function deleteProject(e) {
+  const reference = e.target.dataset.ref
+  const item = mainDOM.projectList.querySelector(`li[data-ref = ${reference}`);
+  uProjects.deleteProject(reference);
+  controlDOM.updateProjectList(mainDOM.projectList, allProjects, projectBtns);
+  activateProjectBtns(projectBtns);
+}
+
 const bindEvents = function (element) {
   
   switch (true) {
@@ -190,9 +198,13 @@ const bindEvents = function (element) {
     case (element === form.section):
       form.section.addEventListener("mousedown", removeForm);
       break;
-    case (element ===form.submitProjectBtn):
+    case (element === form.submitProjectBtn):
       form.submitProjectBtn.addEventListener("click", checkForm);
       form.submitProjectBtn.addEventListener("click", displayContent);
+      break;
+    case (element.dataset.btn === 'del'):
+      element.addEventListener('click', deleteProject);
+      element.addEventListener('click', displayContent);
       break;
     default:
       element.addEventListener("click", displayContent);
@@ -283,7 +295,6 @@ const displayContent = function (e) {
       controlDOM.removeSections(mainDOM.main);
       taskSection = controlDOM.createTaskSection();      
       mainDOM.main.appendChild(taskSection.section);
-      console.log(this);
       appropriateTask = getProjectTask(this);
       controlDOM.updateTaskList(taskSection.section, appropriateTask);
       controlDOM.applyUtilityBtnEvents(
@@ -313,6 +324,10 @@ const activateProjectBtns = function (list) {
   list.forEach((item) => {
     const projectButton = item.querySelector('button[data-btn=project]');
     bindEvents(projectButton);
+  })
+  list.forEach((item) => {
+    const deleteBtn = item.querySelector("img[data-btn = del]");
+    bindEvents(deleteBtn);
   })
 }
 

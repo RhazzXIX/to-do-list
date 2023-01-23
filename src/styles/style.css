@@ -248,7 +248,7 @@ div.card.Low {
   display: grid;
   align-items: center;
   grid-template-columns: 30px 1fr 100px repeat(3, auto);
-  gap: 8px;
+  column-gap: 8px;
   grid-template-rows: repeat(2, auto);
 }
 

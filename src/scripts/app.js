@@ -125,17 +125,20 @@ const projectModule = (function () {
     }
 
     function deleteProject(reference) {
-      const index = projectList.filter(
+      console.log(projectList);
+      const index = projectList.findIndex(
         (project) => project.getProjectReference() === reference
       );
+      console.log(index);
       if (index >= 0) projectList.splice(index, 1);
+      console.log(projectList);
     }
 
     const listProjects = function () {
       return projectList;
     };
 
-    return { createNewProject, listProjects };
+    return { createNewProject, listProjects, deleteProject };
   };
 
   return CreateProject;

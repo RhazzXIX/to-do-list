@@ -241,14 +241,14 @@ const DOMcontrol = function () {
     noteBtn.classList.add("cardBtn");
     card.appendChild(noteBtn);
 
-    const editProjectBtn = document.createElement("button");
-    const editProjectImg = new Image(22, 22);
-    editProjectImg.src = EditProject;
-    editProjectImg.setAttribute("alt", "Edit Project Icon");
-    editProjectBtn.classList.add("cardBtn");
-    editProjectBtn.appendChild(editProjectImg);
-    editProjectBtn.dataset.ref = item.taskReference;
-    card.appendChild(editProjectBtn);
+    // const editBtn = document.createElement("button");
+    // const editTaskImg = new Image(22, 22);
+    // editTaskImg.src = EditProject;
+    // editTaskImg.setAttribute("alt", "Edit Project Icon");
+    // editBtn.classList.add("cardBtn");
+    // editBtn.appendChild(editTaskImg);
+    // editBtn.dataset.ref = item.taskReference;
+    // card.appendChild(editBtn);
 
     const delBtn = document.createElement("button");
     const delImg = new Image(22, 22);
@@ -328,13 +328,13 @@ const DOMcontrol = function () {
       projectName.textContent = project.getProjectName();
       projectName.dataset.btn = "project";
 
-      const editProjectBtn = document.createElement("button");
-      editProjectBtn.dataset.ref = project.getProjectReference();
-      const editProjectImg = new Image(22, 22);
-      editProjectImg.src = EditProject;
-      editProjectImg.setAttribute("alt", "Edit Project Icon");
-      editProjectBtn.classList.add("list");
-      editProjectBtn.appendChild(editProjectImg);
+      // const editProjectBtn = document.createElement("button");
+      // editProjectBtn.dataset.ref = project.getProjectReference();
+      // const editProjectImg = new Image(22, 22);
+      // editProjectImg.src = EditProject;
+      // editProjectImg.setAttribute("alt", "Edit Project Icon");
+      // editProjectBtn.classList.add("list");
+      // editProjectBtn.appendChild(editProjectImg);
 
       const delBtn = document.createElement("button");
       const delImg = new Image(22, 22);
@@ -346,7 +346,7 @@ const DOMcontrol = function () {
       delBtn.appendChild(delImg);
 
       li.appendChild(projectName);
-      li.appendChild(editProjectBtn);
+      // li.appendChild(editProjectBtn);
       li.appendChild(delBtn);
       buttonArray.push(li);
       projectList.appendChild(li);
@@ -452,31 +452,33 @@ const DOMcontrol = function () {
 
   function deleteCard(tasks, projects) {
     event.stopPropagation();
-    let card;
     console.log(this);
-    const reference = event.target.dataset.ref;
-    deleteTasks(reference, tasks, projects);
-    const divs = this.querySelectorAll("div.card");
-    divs.forEach((div) => {
-      if (div.dataset.ref === reference) card = div;
-    });
-    this.removeChild(card);
+      let card;
+      const reference = event.target.dataset.ref;
+      deleteTasks(reference, tasks, projects);
+      const divs = this.querySelectorAll("div.card");
+      divs.forEach((div) => {
+        if (div.dataset.ref === reference) card = div;
+      });
+      this.removeChild(card);
   }
 
-  function applyDeleteEvent(section, tasks, projects) {
-    const deleteBtns = section.querySelectorAll("img[data-btn = del]");
+  function applyDeleteEvent(DOM, tasks, projects) {
+    const deleteBtns = DOM.querySelectorAll("img[data-btn = del]");
     deleteBtns.forEach((button) => {
       button.addEventListener(
         "click",
-        deleteCard.bind(section, tasks, projects)
+        deleteCard.bind(DOM, tasks, projects)
       );
     });
   }
 
-  const applyUtilityBtnEvents = function (section, tasks, projects) {
-    applyNotesEvent(section, tasks, projects);
-    applyCompletedEvent(section, tasks, projects);
-    applyDeleteEvent(section, tasks, projects);
+  const applyUtilityBtnEvents = function (DOM, tasks, projects) {
+      applyNotesEvent(DOM, tasks, projects);
+      applyCompletedEvent(DOM, tasks, projects);
+      applyDeleteEvent(DOM, tasks, projects);
+      console.log(this);
+    
   };
 
   return {
