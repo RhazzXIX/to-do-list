@@ -3,6 +3,7 @@ import EditTask from "../images/edit.svg";
 import Trash from "../images/trash.svg";
 
 const DOMcontrol = function () {
+  
   const createTaskSection = function () {
     const section = document.createElement("section");
 
@@ -256,7 +257,8 @@ const DOMcontrol = function () {
     delImg.setAttribute("alt", "Trash Icon");
     delBtn.classList.add("cardBtn");
     delBtn.appendChild(delImg);
-    delBtn.dataset.ref = item.taskReference;
+    delImg.dataset.ref = item.taskReference;
+    delImg.dataset.btn = "del";
     card.appendChild(delBtn);
 
     if (item.completed) {
@@ -336,9 +338,10 @@ const DOMcontrol = function () {
       editProjectBtn.appendChild(editProjectImg);
 
       const delBtn = document.createElement("button");
-      delBtn.dataset.ref = project.getProjectReference();
       const delImg = new Image(22, 22);
+      delImg.dataset.ref = project.getProjectReference();
       delImg.src = Trash;
+      delImg.dataset.btn = "del";
       delImg.setAttribute("alt", "Trash Icon");
       delBtn.classList.add("list");
       delBtn.appendChild(delImg);
@@ -438,9 +441,48 @@ const DOMcontrol = function () {
     });
   };
 
+  function deleteTasks (reference, tasks, projects) {
+    console.log(reference)
+    console.log(tasks.listTasks())    
+    if (tasks.listTasks().length) tasks.deleteTasks(reference);
+    console.log(tasks.listTasks())
+    if (projects.length) {
+      projects.forEach((project) => {
+        console.log(project.listTasks())
+        project.deleteTasks(reference);
+        console.log(project.listTasks())
+      })
+    }
+  }
+
+  function deleteCard (tasks, projects) {
+    event.stopPropagation();
+    let card;
+    console.log(event.target);
+    console.log(tasks);
+    const reference = event.target.dataset.ref;
+    deleteTasks(reference, tasks, projects)
+    const divs = this.querySelectorAll("div.card");
+    divs.forEach((div) => {
+      if (div.dataset.ref === reference) card = div;
+    });
+    this.removeChild(card);
+  }
+
+  function applyDeleteEvent (section, tasks, projects) {
+    const deleteBtns = section.querySelectorAll("img[data-btn = del]");
+    deleteBtns.forEach((button) => {
+      button.addEventListener(
+        "click",
+        deleteCard.bind(section, tasks, projects)
+      );
+    });
+  }
+
   const applyUtilityBtnEvents = function (section, tasks, projects) {
     applyNotesEvent(section, tasks, projects);
     applyCompletedEvent(section, tasks, projects);
+    applyDeleteEvent(section, tasks, projects);
   };
 
   

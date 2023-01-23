@@ -16,6 +16,17 @@ const getCurrentDate = function () {
   return dateToday;
 };
 
+const getProjectTask = function (button) {
+  const reference = button.textContent;
+  let tasks
+  allProjects.forEach((project => {
+    if (project.getProjectName() === reference){
+      tasks = project.listTasks()
+    }
+  }))
+  return tasks;
+}
+
 const getAllTasks = function () {
   const tasks = [];
   uTasks.listTasks().forEach((task) => {
@@ -29,17 +40,6 @@ const getAllTasks = function () {
   });
   return tasks;
 };
-
-const getProjectTask = function (button) {
-  const reference = button.textContent;
-  let tasks
-  allProjects.forEach((project => {
-    if (project.getProjectName() === reference){
-      tasks = project.listTasks()
-    }
-  }))
-  return tasks;
-}
 
 const getTasksToday = function () {
   const tasks = getAllTasks().filter((task) => task.date === getCurrentDate());
@@ -215,6 +215,7 @@ const displayContent = function (e) {
         uTasks,
         allProjects
       );
+      console.log(getAllTasks());
       break;
     case (this === mainDOM.btnComing):
       controlDOM.removeSections(mainDOM.main);
@@ -289,6 +290,7 @@ const displayContent = function (e) {
       controlDOM.removeSections(mainDOM.main);
       taskSection = controlDOM.createTaskSection();      
       mainDOM.main.appendChild(taskSection.section);
+      console.log(this);
       appropriateTask = getProjectTask(this);
       controlDOM.updateTaskList(taskSection.section, appropriateTask);
       controlDOM.applyUtilityBtnEvents(
