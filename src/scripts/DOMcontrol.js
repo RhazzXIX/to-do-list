@@ -5,26 +5,19 @@ import Trash from "../images/trash.svg";
 const DOMcontrol = function () {
   const createTaskSection = function () {
     const section = document.createElement("section");
-    const header = document.createElement("header");
-    header.setAttribute("id", "taskHeader");
-    section.appendChild(header);
 
     const title = document.createElement("h1");
     title.classList.add("taskHeader");
     title.textContent = "Tasks";
-    header.appendChild(title);
+    section.appendChild(title);
 
-    const addTasksBtn = document.createElement("button");
-    addTasksBtn.setAttribute("id", "addTasks");
-    addTasksBtn.classList.add("kit");
-    addTasksBtn.textContent = "+";
-    header.appendChild(addTasksBtn);
-    section.appendChild(header);
-    return { section, title, header, addTasksBtn };
+    section.appendChild(title);
+    return { section, title };
   };
 
   const createProjectSummarySection = function () {
     const section = document.createElement("section");
+    section.setAttribute('id', 'project');
     const title = document.createElement("h1");
     title.textContent = "Projects";
     section.appendChild(title);

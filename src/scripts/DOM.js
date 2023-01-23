@@ -24,6 +24,12 @@ const DOM = (function () {
   exeLogo.setAttribute("alt", "EXEcute Logo");
   header.appendChild(exeLogo);
 
+  const addTasksBtn = document.createElement("button");
+  addTasksBtn.setAttribute("id", "addTasks");
+  addTasksBtn.classList.add("kit");
+  addTasksBtn.textContent = "+";
+  header.appendChild(addTasksBtn);
+
   const notif = new Image();
   notif.src = bell;
   notif.setAttribute("alt", "Bell Icon");
@@ -131,90 +137,11 @@ const DOM = (function () {
 
   
   
- 
-  
-  
-  // main.appendChild(taskSection);
-  // sectionToday.appendChild(taskSection);
-  
-  // Input Forms
-  const sectionForm = document.createElement("section");
-
-  sectionForm.setAttribute("id", "form");
-  
-  const formTitle = document.createElement("h2");
-  
-  const closeBtn = document.createElement("button");
-  closeBtn.classList.add("kit");
-  closeBtn.setAttribute("type", "button");
-  closeBtn.setAttribute("id", "closeButton");
-  closeBtn.textContent = "✕";
-
-  const formHeader = document.createElement("header");
-
-  formHeader.appendChild(formTitle);
-  formHeader.appendChild(closeBtn);
-
-  const firstLabel = document.createElement("label");
-  firstLabel.setAttribute("for", "firstInput");
-
-  const firstInput = document.createElement("input");
-  firstInput.setAttribute("id", "firstInput");
-  firstInput.setAttribute("required", "");
-  firstInput.setAttribute("type", "text");
-
-  const scndLabel = document.createElement("label");
-  scndLabel.setAttribute("for", "scndInput");
-
-  const scndInput = document.createElement("textarea");
-  scndInput.setAttribute("id", "scndInput");
-
-  const dateLabel = document.createElement("label");
-  dateLabel.textContent = "Set due date:";
-  dateLabel.setAttribute("for", "date");
-
-  const dateInput = document.createElement("input");
-  dateInput.setAttribute("type", "date");
-  dateInput.setAttribute("id", "date");
-
-  dateLabel.appendChild(dateInput);
-
-  const priorityLabel = document.createElement("label");
-  priorityLabel.textContent = "Set priority:";
-  priorityLabel.setAttribute("for", "priority");
-
-  const priorityInput = document.createElement("select");
-  priorityInput.setAttribute("id", "priority");
-
-  for (let i = 0; i <= 2; i += 1) {
-    const option = document.createElement("option");
-    switch (i) {
-      case 1:
-        option.textContent = "Medium";
-        break;
-      case 2:
-        option.textContent = "Low";
-        option.setAttribute("selected", "");
-        break;
-      default:
-        option.textContent = "High";
-    }
-    priorityInput.appendChild(option);
-  }
-
-  priorityLabel.appendChild(priorityInput);
-
-  
-
-  const submitTaskBtn = document.createElement("button");
-  submitTaskBtn.textContent = "Add Task";
-  submitTaskBtn.classList.add("kit");
-
   base.appendChild(header);
   base.appendChild(sidebar);
   base.appendChild(main);
 
-  return {base, main, btnBoard, btnComing, btnProject, btnToday, addProject, projectList}
+  return {base, main, btnBoard, btnComing, btnProject, btnToday, addProject, projectList, addTasksBtn}
 });
 
 export default DOM
