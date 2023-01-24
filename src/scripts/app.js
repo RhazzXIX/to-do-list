@@ -2,21 +2,45 @@ import { format } from "date-fns";
 
 const tasksModule = (function () {
   const CreateTaskList = function () {
+    const today = format(new Date(), "do-MMM.-yyyy");
     const tasks = [];
+    let baseTasks = [
+      {
+        task: "test Storage",
+        date: today,
+        priority: 'High',
+        taskReference: 'tSJtt2255',
+        note: 'Just testing the storage',
+        completed: false,
+      }
+    ];
+    // localStorage.removeItem('taskStorage');
 
-    const Task = function () {
-      const completed = false;
-      const toggleStatus = function () {
-        if (!this.completed) {
-          this.completed = true;
-        } else {
-          this.completed = false;
-        }
-      };
-      return { completed, toggleStatus };
-    };
+    const addToStorage = function () {
+      const toStorage = JSON.stringify(baseTasks);
+      localStorage.setItem('taskStorage', toStorage)
+    }
 
-    const createReference = function (task, note) {
+    const getFromStorage = function () {
+      if (!localStorage.getItem('taskStorage')) return
+      const fromStorage = JSON.parse(localStorage.getItem('taskStorage'))
+      baseTasks = fromStorage;
+      applyMethods(baseTasks);
+    }
+
+    if (localStorage.getItem('taskStorage')) {
+      getFromStorage();
+    }
+
+    function applyMethods (taskArray) {
+      tasks.splice(0, tasks.length);
+      taskArray.forEach((task) => {
+        methods(task);
+        tasks.push(task);
+      });
+    }
+
+    function createReference (task, note) {
       const ref1 = task.split(" ").reduce((word, word2, i, arr) => {
         if (i === 2) arr.splice(1);
         word += word2.slice(0, 1);
@@ -32,10 +56,10 @@ const tasksModule = (function () {
       return reference;
     };
 
-    const NewTask = function (task, initialDate, level, note) {
-      const duty = Object.create(Task());
+    function BaseTask (task, initialDate, level, note) {
+      const completed = false;
       let priority = level;
-      const today = format(new Date(), "do-MMM.-yyyy");
+      
       let date = initialDate;
       if (!initialDate) {
         date = today;
@@ -44,26 +68,44 @@ const tasksModule = (function () {
       }
       const taskReference = createReference(task, note);
       if (priority === undefined) priority = 4;
-      return Object.assign(duty, { task, date, priority, taskReference, note });
+      return { task, date, priority, taskReference, note, completed };
     };
+
+    function methods (task) {
+      const duty = task;
+      const toggleStatus = function () {
+        if (!this.completed) {
+          this.completed = true;
+        } else {
+          this.completed = false;
+        }
+        updateStorage();
+      }
+      return Object.assign(duty, { toggleStatus });
+    };
+
+    function updateStorage() {
+      addToStorage();
+      getFromStorage();
+    }
 
     const addTasks = function (task, date, priority, note) {
-      const newTask = NewTask(task, date, priority, note);
-      tasks.push(newTask);
+      const baseTask = BaseTask(task, date, priority, note);
+      baseTasks.push(baseTask);
+      updateStorage();
     };
 
-    const deleteTasks = function (reference) {
-      console.log(tasks)
-      const index = tasks.findIndex(
+
+    const deleteTasks = function (reference) {      
+      const index = baseTasks.findIndex(
         (task) => task.taskReference === reference
       );
-      if (index >= 0) tasks.splice(index, 1);
-      console.log(tasks);
+      if (index >= 0) baseTasks.splice(index, 1);
+      updateStorage();
     };
 
     const listTasks = function () {
-      const tasksList = tasks.map((list) => list);
-      return tasksList;
+      return baseTasks;
     };
 
     // const editTasks = function (duty) {

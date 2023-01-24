@@ -476,9 +476,7 @@ const DOMcontrol = function () {
   const applyUtilityBtnEvents = function (DOM, tasks, projects) {
       applyNotesEvent(DOM, tasks, projects);
       applyCompletedEvent(DOM, tasks, projects);
-      applyDeleteEvent(DOM, tasks, projects);
-      console.log(this);
-    
+      applyDeleteEvent(DOM, tasks, projects);    
   };
 
   return {

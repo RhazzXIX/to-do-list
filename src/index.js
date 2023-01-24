@@ -64,17 +64,6 @@ const getOverdueTasks = function () {
   return tasks;
 };
 
-// const activateBtns = function (project, list) {
-//   const reference = project.getProjectReference();
-//   const item = document.querySelector(`li[data-ref=${reference}`)
-//   let projectButton
-//   const buttons = item.querySelectorAll('button');
-//   buttons.forEach((button => {
-//     if (button.textContent === project.getProjectName()) ProjectButton = button;
-//   }))
-//   ProjectButton.addEventListener('click')
-// }
-
 const sortToHigh = function (array) {
   const highToLow = array.sort((task1, task2) => {
     let priority = 0;
@@ -340,29 +329,6 @@ const bindInitialBtn = function (e) {
   bindEvents(mainDOM.btnProject);
   bindEvents(mainDOM.addTasksBtn)
 };
-
-uTasks.addTasks("buy groceries", "2023/01/28", "Low", "local market");
-uTasks.addTasks(
-  "buy soil",
-  parse(getCurrentDate(), "do-MMM.-yyyy", new Date()),
-  "Medium",
-  "Loam soil is preferred"
-);
-uTasks.addTasks(
-  "pay Bills",
-  "2023/01/21",
-  "High",
-  "Electric Bill and Water Bill"
-);
-
-uProjects.createNewProject("To Do List", "Create a to do list");
-uProjects.createNewProject("Test Project", "Test this projects");
-allProjects[0].addTasks(
-  "test Task",
-  parse(getCurrentDate(), "do-MMM.-yyyy", new Date()),
-  "Low",
-  "just testing on adding task"
-);
 
 taskSection = controlDOM.createTaskSection();
 projectSection = controlDOM.createProjectSummarySection();
