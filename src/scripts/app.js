@@ -3,6 +3,7 @@ import { format } from "date-fns";
 const tasksModule = (function () {
   const CreateTaskList = function () {
     const today = format(new Date(), "do-MMM.-yyyy");
+    let storageName;
     const tasks = [];
     let baseTasks = [
       {
@@ -13,22 +14,36 @@ const tasksModule = (function () {
         note: 'Just testing the storage',
         completed: false,
       }
-    ];
-    // localStorage.removeItem('taskStorage');
+    ]
+    
+    // localStorage.clear();
+    console.log(localStorage);
+
+    function setStorageName (name) {
+      storageName = name;
+    }
+
+    // function createTaskStorage () {
+    //   if (!localStorage.length) {
+    //     if (storageName === undefined) storageName = 'base Tasks';
+    //     console.log(storageName);
+    //   }
+    //   console.log(localStorage);
+    // }
 
     const addToStorage = function () {
+      if (storageName === undefined ) storageName = 'base Tasks';
       const toStorage = JSON.stringify(baseTasks);
-      localStorage.setItem('taskStorage', toStorage)
+      localStorage.setItem(storageName, toStorage)
     }
 
     const getFromStorage = function () {
-      if (!localStorage.getItem('taskStorage')) return
-      const fromStorage = JSON.parse(localStorage.getItem('taskStorage'))
+      if (!localStorage.getItem(storageName)) return
+      const fromStorage = JSON.parse(localStorage.getItem(storageName))
       baseTasks = fromStorage;
-      applyMethods(baseTasks);
     }
 
-    if (localStorage.getItem('taskStorage')) {
+    if (localStorage.getItem(storageName)) {
       getFromStorage();
     }
 
@@ -105,6 +120,7 @@ const tasksModule = (function () {
     };
 
     const listTasks = function () {
+      applyMethods(baseTasks);
       return baseTasks;
     };
 
@@ -112,7 +128,7 @@ const tasksModule = (function () {
     //   const taskEdit = tasks.filter((item) => item.duty === duty);
     // };
 
-    return Object.assign({}, { addTasks, deleteTasks, listTasks });
+    return Object.assign({}, { setStorageName, addTasks, deleteTasks, listTasks });
   };
 
   return CreateTaskList;
@@ -142,6 +158,8 @@ const projectModule = (function () {
         changeDescription,
         getProjectReference,
       });
+      console.log(project);
+      project.setStorageName(getProjectName())
       return project;
     };
 
