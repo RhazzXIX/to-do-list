@@ -452,31 +452,28 @@ const DOMcontrol = function () {
 
   function deleteCard(tasks, projects) {
     event.stopPropagation();
-    console.log(this);
-      let card;
-      const reference = event.target.dataset.ref;
-      deleteTasks(reference, tasks, projects);
-      const divs = this.querySelectorAll("div.card");
-      divs.forEach((div) => {
-        if (div.dataset.ref === reference) card = div;
-      });
-      this.removeChild(card);
+
+    let card;
+    const reference = event.target.dataset.ref;
+    deleteTasks(reference, tasks, projects);
+    const divs = this.querySelectorAll("div.card");
+    divs.forEach((div) => {
+      if (div.dataset.ref === reference) card = div;
+    });
+    this.removeChild(card);
   }
 
   function applyDeleteEvent(DOM, tasks, projects) {
     const deleteBtns = DOM.querySelectorAll("img[data-btn = del]");
     deleteBtns.forEach((button) => {
-      button.addEventListener(
-        "click",
-        deleteCard.bind(DOM, tasks, projects)
-      );
+      button.addEventListener("click", deleteCard.bind(DOM, tasks, projects));
     });
   }
 
   const applyUtilityBtnEvents = function (DOM, tasks, projects) {
-      applyNotesEvent(DOM, tasks, projects);
-      applyCompletedEvent(DOM, tasks, projects);
-      applyDeleteEvent(DOM, tasks, projects);    
+    applyNotesEvent(DOM, tasks, projects);
+    applyCompletedEvent(DOM, tasks, projects);
+    applyDeleteEvent(DOM, tasks, projects);
   };
 
   return {
